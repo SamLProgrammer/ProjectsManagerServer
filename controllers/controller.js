@@ -23,7 +23,7 @@ const connectToBD = (componentsInitializer) => {
         database: "projectsmanager",
     });
 
-    mysql_connection.connect(function (err) {
+    mysql_connection.connect(function (err) { 
         if (err) throw err;
         console.log("Connected!");
         componentsInitializer(mysql_connection);
