@@ -1,10 +1,18 @@
 class UsersManager {
-    constructor() {
-        this.creationCache = insertedUserToDB();
+  constructor(in_db_connection) {
+    this.db_connection = in_db_connection;
+    this.confirmDBConnection(); // Test DB Connection, removable method
+  }
 
-    }
-
-    insertedUserToDB(user_data) {
-
-    }
+  confirmDBConnection() {
+    this.db_connection.query(
+      "SELECT * FROM user",
+      function (err, result, fields) {
+        if (err) throw err;
+        console.log("Users Manager Showing Users: " + result);
+      }
+    );
+  }
 }
+
+module.exports = UsersManager;

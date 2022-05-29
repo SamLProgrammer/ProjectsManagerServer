@@ -1,6 +1,6 @@
-const express = require ('express');
-const cors = require ('cors');
-const {connectToBD} = require ('../controllers/controller')
+const express = require('express');
+const cors = require('cors');
+const { initController } = require('../controllers/controller')
 const PORT = 4000;
 class Server {
     constructor() {
@@ -17,11 +17,7 @@ class Server {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.static('public'));
-        this.connectServerToBD();
-    }
-
-    connectServerToBD() {
-        connectToBD();
+        initController();
     }
 
     routes() {
