@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const users_manager = require("../controllers/usersManager.js");
 const projects_manager = require("../controllers/projectsManager.js");
+const { Server } = require("socket.io");
 let usersManager;
 let projectsManager;
 let mysql_connection;
@@ -32,11 +33,12 @@ const connectToBD = (componentsInitializer) => {
 
 const createUser = (req, res) => {
     console.log("Creating User...");
+    console.log(JSON.stringify(req.body));
 };
 
 const createProject = (req, res) => {
     console.log("Creating Project...");
-    console.log(JSON.stringify(req.body));
+    projectsManager.insertProject(req.body);
 };
 
 module.exports = {

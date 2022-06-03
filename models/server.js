@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { initController } = require('../controllers/controller')
 const PORT = 4000;
+
 class Server {
     constructor() {
         this.app = express();
@@ -16,7 +17,6 @@ class Server {
     middleware() {
         this.app.use(cors());
         this.app.use(express.json());
-        this.app.use(express.static('public'));
         initController();
     }
 
