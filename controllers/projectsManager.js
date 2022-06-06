@@ -29,8 +29,8 @@ class ProjectsManager {
        && project_name_length > 0 && project_name_length < 51) {
 
     //fixing chars replacements on date for "/" before inserting to DB
-      const splited_initial_date = initial_date.replaceAll('/','-');
-      const splited_final_date = final_date.replaceAll('/','-');
+      const splited_initial_date = initial_date.replace(/\//g,'-');
+      const splited_final_date = final_date.replace(/\//g,'-');
       
     //Insertion in DB
       const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date) VALUES ('" + project_name + "', STR_TO_DATE('" + splited_initial_date + "', '%d-%m-%Y'), STR_TO_DATE('" + splited_final_date + "', '%d-%m-%Y'))";
