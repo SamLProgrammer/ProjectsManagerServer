@@ -12,12 +12,12 @@ class UsersManager {
     for (var key in user_info) {
       switch (key) {
         case 'user_name':
-          if (!user_info.hasOwnProperty('user_name') || !/^[a-zA-Z]+$/.test(user_info.user_name)) {
+          if (!user_info.hasOwnProperty('user_name') || !/^[\w'\-][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*\-(){}|~<>;:[\]]{1,60}$/.test(user_info.user_name)) {
             invalid_field += 'Error on user_name';
           }
           break;
         case 'user_last_name':
-          if (!user_info.hasOwnProperty('user_last_name') || !/^[a-zA-Z]+$/.test(user_info.user_last_name)) {
+          if (!user_info.hasOwnProperty('user_last_name') || !/^[\w'\-][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*\-(){}|~<>;:[\]]{1,60}$/.test(user_info.user_last_name)) {
             invalid_field += ' Error on last_name';
           }
           break;
