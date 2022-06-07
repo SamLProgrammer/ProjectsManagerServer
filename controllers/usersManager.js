@@ -65,8 +65,12 @@ class UsersManager {
             invalid_field += ' Error on Password'
           }
           break;
+          default:
+            invalid_field += 'Invalid Request';
+            break;
       }
     }
+
     if (invalid_field == '') {
       console.log('called me');
       let login_user = 'r.' + user_info.user_email + '.h';
