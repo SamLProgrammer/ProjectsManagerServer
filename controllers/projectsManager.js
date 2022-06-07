@@ -2,16 +2,7 @@ class ProjectsManager {
 
   constructor(in_db_connection) {
     this.db_connection = in_db_connection;
-    this.confirmDBConnection()
   }
-
-  confirmDBConnection() {
-      this.db_connection.query("SELECT * FROM project", function (err, result, fields) {
-        if (err) throw err;
-        console.log("Projects Manager Showing Projects:" + result);
-      });
-  }
-
 
   insertProject(project_info) {
 
@@ -34,7 +25,6 @@ class ProjectsManager {
       
     //Insertion in DB
       const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date) VALUES ('" + project_name + "', STR_TO_DATE('" + splited_initial_date + "', '%d-%m-%Y'), STR_TO_DATE('" + splited_final_date + "', '%d-%m-%Y'))";
-      console.log(insertion_query);
       this.db_connection.query(insertion_query, function (err, result, fields) {
         if (err) throw err
         console.log('1 Inserted Project!');

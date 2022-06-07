@@ -32,12 +32,10 @@ const connectToBD = (componentsInitializer) => {
 };
 
 const createUser = (req, res) => {
-    console.log("Creating User...");
-    console.log(JSON.stringify(req.body));
+    usersManager.insertUser(req.body, res);
 };
 
 const createProject = (req, res) => {
-    console.log("Creating Project...");
     projectsManager.insertProject(req.body);
 };
 
