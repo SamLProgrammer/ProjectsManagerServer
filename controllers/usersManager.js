@@ -1,4 +1,3 @@
-const { response } = require("express");
 
 class UsersManager {
   constructor(in_db_connection) {
@@ -65,9 +64,19 @@ class UsersManager {
             invalid_field += ' Error on Password'
           }
           break;
-          default:
-            invalid_field += 'Invalid Request';
-            break;
+        case 'user_status':
+          if(!user_info.hasOwnProperty('user_status') || !/^[01]$/.test(user_info.user_status)) {
+            invalid_field += ' Error on Status'
+          }
+          break;
+          case 'boss_id':
+            if(user_info.hasOwnProperty('boss_id') && !/^[0-9]*$/.test(user_info.boss_id)) {
+              invalid_field += ' Error on boss'
+            }
+          break;
+        default:
+          invalid_field += 'Invalid Request';
+          break;
       }
     }
 
@@ -78,10 +87,10 @@ class UsersManager {
       this.db_connection.query(document_insertion_query, (err0, result0, fields0) => {
         if (err0) { throw err0 }
         else {
-          const user_insertion_query = "INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User) VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", STR_TO_DATE('" + birth_date_to_insert + "', '%d-%m-%Y'), " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "')";
+          const user_insertion_query = "INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id, Boss_Id) VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", STR_TO_DATE('" + birth_date_to_insert + "', '%d-%m-%Y'), " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "', " + user_info.user_status +", " + user_info.boss_id + ")";
           this.db_connection.query(user_insertion_query, (err1, result1, fields1) => {
             if (err1) throw err1
-            res.send('New User Inserted With Id: ' + result0.insertId)
+            res.send({ respo: invalid_field })
           });
         }
       });

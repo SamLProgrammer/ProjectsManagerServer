@@ -4,12 +4,13 @@ class ProjectsManager {
     this.db_connection = in_db_connection;
   }
 
-  insertProject(project_info) {
+  insertProject(project_info, res) {
 
     //getting request body values
     const project_name = project_info.project_name;
     const initial_date = project_info.initial_date;
     const final_date = project_info.final_date;
+    const project_status = project_info.project_status;
 
     //validators
     const project_name_length = project_name.length;
@@ -22,12 +23,17 @@ class ProjectsManager {
     //fixing chars replacements on date for "/" before inserting to DB
       const splited_initial_date = initial_date.replace(/\//g,'-');
       const splited_final_date = final_date.replace(/\//g,'-');
+
+      // VALIDAR ESTADO
       
     //Insertion in DB
-      const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date) VALUES ('" + project_name + "', STR_TO_DATE('" + splited_initial_date + "', '%d-%m-%Y'), STR_TO_DATE('" + splited_final_date + "', '%d-%m-%Y'))";
+      const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', STR_TO_DATE('" + splited_initial_date + "', '%d-%m-%Y'), STR_TO_DATE('" + splited_final_date + "', '%d-%m-%Y'), '" + project_status + "')";
       this.db_connection.query(insertion_query, function (err, result, fields) {
-        if (err) throw err
-        console.log('1 Inserted Project!');
+        if (err) {
+        res.send('mal'); 
+        } else {
+          res.send('good'); 
+        }
       });
       }
     }

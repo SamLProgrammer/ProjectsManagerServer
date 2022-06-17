@@ -1,8 +1,12 @@
 const { Router } = require('express');
 const router = Router();
-const { createUser, createProject } = require('../controllers/controller');
+const { createUser, createProject, createActivity } = require('../controllers/controller');
 
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
-
+router.post('/createActivity', createActivity);
+//getuser;
+//getprojects;
+//deleteuser;
+//deleteprojects;
 module.exports = router;
