@@ -4,6 +4,16 @@ class ProjectsManager {
     this.db_connection = in_db_connection;
   }
 
+  getAllProjects(res) {
+    this.db_connection.query("SELECT * FROM project", function (err, result, fields) {
+      if (err) {
+        res.send("mal");
+      } else {
+        res.send(result);
+      }
+    });
+  }
+
   insertProject(project_info, res) {
 
     //getting request body values

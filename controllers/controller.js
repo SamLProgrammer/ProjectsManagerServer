@@ -51,10 +51,15 @@ const getAllUsers = (req, res) => {
     usersManager.getAllUsers(res);
 }
 
+const getAllProjects = (req, res) => {
+    projectsManager.getAllProjects(res);
+}
+
 module.exports = {
     createUser,
     createProject,
     initController,
     createActivity,
-    getAllUsers
+    getAllUsers,
+    getAllProjects
 };
