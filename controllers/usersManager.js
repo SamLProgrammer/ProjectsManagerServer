@@ -48,7 +48,7 @@ class UsersManager {
           }
           break;
         case 'salary':
-          if (user_info.salary != null && !/^(([1-9]*)|(([1-9]*)\.([0-9]*)))$/.test(user_info.salary)) {
+          if (user_info.salary != null && !/^(?!0+(?:\.0+)?$)[0-9]+(?:\.[0-9]+)?$/.test(user_info.salary)) {
             invalid_field += ' Error on Salary';
           }
           break;
