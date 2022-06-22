@@ -89,15 +89,15 @@ class UsersManager {
           break;
       }
     }
-
     if (invalid_field == '') {
-      console.log('called me');
+      const boss_id = (user_info.boss_id.length == 0) ? ")": ", " + user_info.boss_id + ")";
+      const boss_id_index = (user_info.boss_id.length == 0) ? ")": ", Boss_Id)";
       let login_user = 'r.' + user_info.user_email + '.h';
       const document_insertion_query = "INSERT INTO identity_document (Type_Id, Document_word) VALUES ('" + user_info.identity_document_type + "', '" + user_info.identity_document_word + "')";
       this.db_connection.query(document_insertion_query, (err0, result0, fields0) => {
         if (err0) { throw err0 }
         else {
-          const user_insertion_query = "INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id, Boss_Id) VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", STR_TO_DATE('" + birth_date_to_insert + "', '%d-%m-%Y'), " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "', " + user_info.user_status +", " + user_info.boss_id + ")";
+          const user_insertion_query = "INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id" + boss_id_index + "VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", STR_TO_DATE('" + birth_date_to_insert + "', '%d-%m-%Y'), " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "', " + user_info.user_status + boss_id;
           this.db_connection.query(user_insertion_query, (err1, result1, fields1) => {
             if (err1) throw err1
             res.send({ respo: invalid_field })

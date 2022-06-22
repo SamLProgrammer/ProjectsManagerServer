@@ -13,7 +13,7 @@ class ProjectsManager {
       }
     });
   }
-
+//"INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id, Boss_Id) VALUES ('ALEX', 'daza ', 4, STR_TO_DATE('12-05-2022', '%d-%m-%Y'), 12333, 22, 'mati2567@gmail.com', '3121222224', 'Linda1234', 'r.mati2567@gmail.com.h', 1, )"
   insertProject(project_info, res) {
 
     //getting request body values
