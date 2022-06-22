@@ -4,6 +4,16 @@ class UsersManager {
     this.db_connection = in_db_connection;
   }
 
+  getAllUsers(res) {
+    this.db_connection.query("SELECT * FROM user", function (err, result, fields) {
+      if (err) {
+        res.send("mal");
+      } else {
+        res.send(result);
+      }
+    });
+  }
+
   insertUser(user_info, res) {
     let invalid_field = '';
     let birth_date_to_insert;

@@ -47,9 +47,14 @@ const createProject = (req, res) => {
     projectsManager.insertProject(req.body, res);
 };
 
+const getAllUsers = (req, res) => {
+    usersManager.getAllUsers(res);
+}
+
 module.exports = {
     createUser,
     createProject,
     initController,
-    createActivity
+    createActivity,
+    getAllUsers
 };
