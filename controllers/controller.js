@@ -43,7 +43,7 @@ const createUser = (req, res) => {
 
 const createActivity = (req, res) => {
     console.log('Insertando activity')
-    activitiesManager.insertActivity(req.body,res);
+    activitiesManager.insertActivity(req.body, projectId, res);
 }
 
 const createProject = (req, res) => {

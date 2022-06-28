@@ -4,9 +4,9 @@ class ActivitiesManager {
       this.db_connection = in_db_connection;
     }
   
-    insertActivity(activity_info,res) {
+    insertActivity(activity_info,project_Id, res) {
 
-        const project_Id = activity_info.project_id;
+        // const project_Id = activity_info.project_id;
         const activity_name = activity_info.activity_name;
         const estimated_hours = activity_info.estimated_hours;
         const priority = activity_info.priority;
