@@ -8,6 +8,8 @@ let projectsManager;
 let activitiesManager;
 let mysql_connection;
 
+let projectId;
+
 const initController = () => {
     connectToBD(initComponents);
 };
@@ -16,6 +18,7 @@ const initComponents = (connection) => {
     usersManager = new users_manager(connection);
     projectsManager = new projects_manager(connection);
     activitiesManager = new activities_manager(connection);
+    projectId = 0
 };
 
 const connectToBD = (componentsInitializer) => {
@@ -23,7 +26,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "leliberteHal0",
+        password: "",
         database: "projectsmanager",
     });
 
@@ -55,11 +58,29 @@ const getAllProjects = (req, res) => {
     projectsManager.getAllProjects(res);
 }
 
+const getAllActivity = (req, res) => {
+    // console.log("Req = " + req.body);
+    activitiesManager.getAllActivity(projectId, res);
+  };
+
+const desactivateUser = (req, res) => {
+    console.log(req);
+    usersManager.desactivateUser(req.body.User_Id, res);
+};
+
+const sendProjectId = (req) => {
+    projectId = req.body.Project_Id;
+    console.log("Aca esta el id: " + projectId);
+}
+
 module.exports = {
     createUser,
     createProject,
     initController,
     createActivity,
     getAllUsers,
-    getAllProjects
+    getAllProjects,
+    getAllActivity,
+    sendProjectId,
+    desactivateUser
 };

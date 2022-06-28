@@ -5,7 +5,17 @@ class UsersManager {
   }
 
   getAllUsers(res) {
-    this.db_connection.query("SELECT * FROM user", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1", function (err, result, fields) {
+      if (err) {
+        res.send("mal");
+      } else {
+        res.send(result);
+      }
+    });
+  }
+
+  desactivateUser(user_id, res){
+    this.db_connection.query("UPDATE user SET Status_Id = 0 WHERE User_Id = " + user_id, function (err, result, fields) {
       if (err) {
         res.send("mal");
       } else {

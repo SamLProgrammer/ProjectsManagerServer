@@ -19,6 +19,19 @@ class ActivitiesManager {
           res.send('1 Inserted Activity!');
         });
       }
+      
+      getAllActivity(req, res) {
+        this.db_connection.query(
+          "SELECT * FROM activity WHERE Project_Id = " + req,
+          function (err, result, fields) {
+            if (err) {
+              res.send("mal");
+            } else {
+              res.send(result);
+            }
+          }
+        );
+      }
   }
   
   module.exports = ActivitiesManager;
