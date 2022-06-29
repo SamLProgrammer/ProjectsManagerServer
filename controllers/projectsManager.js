@@ -3,6 +3,16 @@ class ProjectsManager {
   constructor(in_db_connection) {
     this.db_connection = in_db_connection;
   }
+//UPDATE table1 SET col_a='new' WHERE key_col='key'
+  disableProject(body, res) {
+    this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, function (err, result, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+  }
 
   getAllProjects(res) {
     this.db_connection.query("SELECT * FROM project", function (err, result, fields) {

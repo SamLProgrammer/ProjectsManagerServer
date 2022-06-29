@@ -81,6 +81,10 @@ const assignActivityToUser = (req, res) => {
 
 }
 
+const disableProject = (req, res) => {
+    projectsManager.disableProject(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -92,5 +96,6 @@ module.exports = {
     sendProjectId,
     desactivateUser,
     assignActivityToUser,
-    login
+    login,
+    disableProject
 };
