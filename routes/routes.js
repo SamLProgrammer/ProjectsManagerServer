@@ -14,7 +14,7 @@ router.get("/getActivity", getAllActivity);
 router.post("/sendProjectId", sendProjectId);
 router.post('/deleteUser', desactivateUser);
 router.post('/assignActivityToUser', assignActivityToUser);
-router.get('/login', login);
+router.post('/login', login);
 router.delete('/deleteProject', disableProject)
 //deleteuser;
 //deleteprojects;
