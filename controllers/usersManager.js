@@ -4,6 +4,17 @@ class UsersManager {
     this.db_connection = in_db_connection;
   }
 
+  login(body, res) {
+    console.log(body);
+    this.db_connection.query("SELECT * FROM user WHERE Login_User = '" + body.login_user + "' AND User_Password = '" + body.user_password + "'", function (err, result, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result != null);
+      }
+    });
+  }
+
   getAllUsers(res) {
     this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1", function (err, result, fields) {
       if (err) {
@@ -119,5 +130,6 @@ class UsersManager {
     }
   }
 }
+
 
 module.exports = UsersManager;
