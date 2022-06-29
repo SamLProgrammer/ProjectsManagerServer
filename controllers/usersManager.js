@@ -10,7 +10,7 @@ class UsersManager {
       if (err) {
         console.log(err);
       } else {
-        res.send(result != null);
+        res.send(result.length > 0);
       }
     });
   }
