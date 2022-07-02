@@ -15,7 +15,7 @@ class ProjectsManager {
   }
 
   getAllProjects(res) {
-    this.db_connection.query("SELECT * FROM project", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM `project` WHERE Status_Id != 'A' ", function (err, result, fields) {
       if (err) {
         res.send("mal");
       } else {
