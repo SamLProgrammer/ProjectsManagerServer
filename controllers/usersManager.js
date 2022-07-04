@@ -8,10 +8,20 @@ class UsersManager {
     console.log(body);
     this.db_connection.query("SELECT * FROM user WHERE Login_User = '" + body.login_user + "' AND User_Password = '" + body.user_password + "'", function (err, result, fields) {
       if (err) {
-        console.log(err);
+        res.status(500).send(err);
       } else {
-        console.log(result.length > 0);
-        res.send(result.length > 0);
+        if(result.length > 0){
+          res.status(200).send({
+            'id' : result[0].User_Id,
+            'boss_id' : result[0].Boss_id,
+            'user_name': result[0].User_Name,
+            'user_lastname' : result[0].User_Last_Name,
+          })          
+        }else {
+          res.status(400).send('Usuario no existe');
+        }
+        // console.log(result.length > 0);
+        // res.send(result.length > 0);
       }
     });
   }
