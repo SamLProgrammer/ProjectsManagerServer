@@ -4,7 +4,7 @@ class ProjectsManager {
     this.db_connection = in_db_connection;
   }
 //UPDATE table1 SET col_a='new' WHERE key_col='key'
-  disableProject(body, res) {
+  disableProject(body, res) { // validaciones
     this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, function (err, result, fields) {
       if (err) {
         console.log(err);
@@ -14,7 +14,7 @@ class ProjectsManager {
     });
   }
 
-  getAllProjects(res) {
+  getAllProjects(res) { // validaciones
     this.db_connection.query("SELECT * FROM `project` WHERE Status_Id != 'A' ", function (err, result, fields) {
       if (err) {
         res.send("mal");

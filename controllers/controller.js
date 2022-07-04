@@ -26,7 +26,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "",
+        password: "leliberteHal0",
         database: "projectsmanager",
     });
 
@@ -78,11 +78,15 @@ const login = (req, res) => {
 }
 
 const assignActivityToUser = (req, res) => {
-
+    activitiesManager.assignActivityToUser(req.body, res);
 }
 
 const disableProject = (req, res) => {
     projectsManager.disableProject(req.body, res);
+}
+
+const deleteActivity = (req, res) => {
+    activitiesManager.deleteActivity(req.body, res);
 }
 
 module.exports = {
@@ -97,5 +101,6 @@ module.exports = {
     desactivateUser,
     assignActivityToUser,
     login,
-    disableProject
+    disableProject,
+    deleteActivity
 };

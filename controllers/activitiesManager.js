@@ -3,10 +3,28 @@ class ActivitiesManager {
     constructor(in_db_connection) {
       this.db_connection = in_db_connection;
     }
-  
-    insertActivity(activity_info,project_Id, res) {
 
-        // const project_Id = activity_info.project_id;
+    assignActivityToUser(act_info, res) { // validaciones
+      const activity_id = act_info.activity_id;
+      const user_id = act_info.user_id;
+      const insertion_query = "INSERT INTO ACTIVITY_ASSIGNMENT (Activity_Id, User_Id) VALUES (" + activity_id + ", " + user_id + ")"
+      this.db_connection.query(insertion_query, function (err, result, fields) {
+        if (err) throw err
+        res.send("Activity Assigned!")
+      });
+    }
+
+    deleteActivity(act_info, res) { // validaciones
+      const activity_id = act_info.activity_id;
+      const insertion_query = "DELETE FROM ACTIVITY WHERE Activity_Id = " + activity_id;
+      this.db_connection.query(insertion_query, function (err, result, fields) {
+        if (err) throw err
+        res.send("Deleted Activity!")
+      });
+    }
+  
+    insertActivity(activity_info,project_Id, res) { // validaciones
+
         const activity_name = activity_info.activity_name;
         const estimated_hours = activity_info.estimated_hours;
         const priority = activity_info.priority;
@@ -20,7 +38,7 @@ class ActivitiesManager {
         });
       }
       
-      getAllActivity(req, res) {
+      getAllActivity(req, res) { // validaciones
         this.db_connection.query(
           "SELECT * FROM activity WHERE Project_Id = " + req,
           function (err, result, fields) {

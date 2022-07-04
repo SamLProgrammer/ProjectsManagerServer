@@ -4,8 +4,7 @@ class UsersManager {
     this.db_connection = in_db_connection;
   }
 
-  login(body, res) {
-    console.log(body);
+  login(body, res) {  // validaciones
     this.db_connection.query("SELECT * FROM user WHERE Login_User = '" + body.login_user + "' AND User_Password = '" + body.user_password + "'", function (err, result, fields) {
       if (err) {
         res.status(500).send(err);
@@ -20,13 +19,11 @@ class UsersManager {
         }else {
           res.status(400).send('Usuario no existe');
         }
-        // console.log(result.length > 0);
-        // res.send(result.length > 0);
       }
     });
   }
 
-  getAllUsers(res) {
+  getAllUsers(res) {  // validaciones
     this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1", function (err, result, fields) {
       if (err) {
         res.send("mal");
@@ -36,7 +33,7 @@ class UsersManager {
     });
   }
 
-  desactivateUser(user_id, res){
+  desactivateUser(user_id, res){  // validaciones
     this.db_connection.query("UPDATE user SET Status_Id = 0 WHERE User_Id = " + user_id, function (err, result, fields) {
       if (err) {
         res.send("mal");
@@ -46,7 +43,7 @@ class UsersManager {
     });
   }
 
-  insertUser(user_info, res) {
+  insertUser(user_info, res) {  // validaciones
     let invalid_field = '';
     let birth_date_to_insert;
     let weekly_hours_to_insert;
