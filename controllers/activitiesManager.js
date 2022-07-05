@@ -23,9 +23,10 @@ class ActivitiesManager {
       });
     }
   
-    insertActivity(activity_info,project_Id, res) { // validaciones
+    insertActivity(activity_info, res) { // validaciones
 
         const activity_name = activity_info.activity_name;
+        const project_Id = activity_info.project_id;
         const estimated_hours = activity_info.estimated_hours;
         const priority = activity_info.priority;
         const status = activity_info.status;
@@ -40,12 +41,15 @@ class ActivitiesManager {
       
       getAllActivity(req, res) { // validaciones
         this.db_connection.query(
-          "SELECT * FROM activity WHERE Project_Id = " + req,
+          "SELECT * FROM activity WHERE Project_Id = " + req.project_id,
           function (err, result, fields) {
             if (err) {
-              res.send("mal");
+              res.status(500).send("mal");
             } else {
-              res.send(result);
+              if (result.length > 0) {
+                res.status(200).send(result)
+              }
+              // res.send(result);
             }
           }
         );
