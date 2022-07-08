@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { createUser, createProject, createActivity,
      getAllUsers, getAllProjects, getAllActivity,
-      desactivateUser, sendProjectId, assignActivityToUser, 
+      desactivateUser, assignActivityToUser, 
     login, disableProject, deleteActivity, getAllActivityUser} = require('../controllers/controller');
 
 router.post('/createUser', createUser);
@@ -16,5 +16,5 @@ router.post('/assignActivityToUser', assignActivityToUser);
 router.post('/login', login);
 router.delete('/deleteProject', disableProject);
 router.delete('/deleteActivity', deleteActivity);
-router.get('/getAllActivityUser', getAllActivityUser);
+router.post('/getAllActivityUser', getAllActivityUser);
 module.exports = router;

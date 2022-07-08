@@ -82,7 +82,7 @@ const deleteActivity = (req, res) => {
 }
 
 const getAllActivityUser = (req, res) => {
-    activitiesManager.getAllActivityUser(req.body);
+    activitiesManager.getAllActivityUser(req.body, res);
 }
 
 module.exports = {
