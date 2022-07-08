@@ -81,6 +81,10 @@ const deleteActivity = (req, res) => {
     activitiesManager.deleteActivity(req.body, res);
 }
 
+const getAllActivityUser = (req, res) => {
+    activitiesManager.getAllActivityUser(req.body);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -93,5 +97,6 @@ module.exports = {
     assignActivityToUser,
     login,
     disableProject,
-    deleteActivity
+    deleteActivity,
+    getAllActivityUser
 };

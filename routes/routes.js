@@ -3,7 +3,7 @@ const router = Router();
 const { createUser, createProject, createActivity,
      getAllUsers, getAllProjects, getAllActivity,
       desactivateUser, sendProjectId, assignActivityToUser, 
-    login, disableProject, deleteActivity} = require('../controllers/controller');
+    login, disableProject, deleteActivity, getAllActivityUser} = require('../controllers/controller');
 
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
@@ -16,6 +16,5 @@ router.post('/assignActivityToUser', assignActivityToUser);
 router.post('/login', login);
 router.delete('/deleteProject', disableProject);
 router.delete('/deleteActivity', deleteActivity);
-//deleteuser;
-//deleteprojects;
+router.get('/getAllActivityUser', getAllActivityUser);
 module.exports = router;

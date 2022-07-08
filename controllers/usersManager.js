@@ -12,7 +12,7 @@ class UsersManager {
         if(result.length > 0){
           res.status(200).send({
             'id' : result[0].User_Id,
-            'boss_id' : result[0].Boss_id,
+            'boss_id' : result[0].Boss_Id,
             'user_name': result[0].User_Name,
             'user_lastname' : result[0].User_Last_Name,
           })          

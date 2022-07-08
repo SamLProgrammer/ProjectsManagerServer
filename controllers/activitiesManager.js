@@ -4,6 +4,27 @@ class ActivitiesManager {
       this.db_connection = in_db_connection;
     }
 
+    getAllActivityUser(req, res) {
+      this.db_connection.query(
+        "SELECT * FROM activity WHERE Activity_Id IN (SELECT `Activity_Id` FROM activity_assignment WHERE User_Id = " +
+          req.user_id +
+          ")",
+        function (err, result, fields) {
+          console.log(req.user_id);
+          if (err) {
+            console.log(err);
+            res.status(500).send("mal");
+          } else {
+            if (result.length > 0) {
+              res.status(200).send(result);
+            }
+            // res.send(result);
+          }
+        }
+      );
+    }
+  
+
     assignActivityToUser(act_info, res) { // validaciones
       const activity_id = act_info.activity_id;
       const user_id = act_info.user_id;
