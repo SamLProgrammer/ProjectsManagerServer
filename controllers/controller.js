@@ -92,6 +92,10 @@ const createAdvance = (req, res) => {
     advancesManager.createAdvance(req.body, res);
 }
 
+const getAdvancesByUser = (req, res) => {
+    advancesManager.getAdvancesByUser(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -106,5 +110,6 @@ module.exports = {
     disableProject,
     deleteActivity,
     getAllActivityUser,
-    createAdvance
+    createAdvance,
+    getAdvancesByUser
 };

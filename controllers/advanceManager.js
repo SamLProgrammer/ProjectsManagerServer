@@ -4,6 +4,12 @@ class AdvancesManager {
       this.db_connection = in_db_connection;
     }
 
+    getAdvancesByUser(advance_info, res) {
+        this.db_connection.query("SELECT * FROM ADVANCE WHERE User_Id = " + advance_info.user_id, function (err, result, fields) {
+            if (err) throw err
+            res.send(result);
+          });
+    }
 
 
     createAdvance(advance_info, res) {
