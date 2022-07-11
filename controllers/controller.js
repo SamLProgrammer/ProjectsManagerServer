@@ -2,10 +2,12 @@ const mysql = require("mysql");
 const users_manager = require("../controllers/usersManager.js");
 const projects_manager = require("../controllers/projectsManager.js");
 const activities_manager = require("../controllers/activitiesManager.js");
+const advances_manager = require("../controllers/advanceManager.js");
 const { Server } = require("socket.io");
 let usersManager;
 let projectsManager;
 let activitiesManager;
+let advancesManager;
 let mysql_connection;
 
 const initController = () => {
@@ -16,6 +18,7 @@ const initComponents = (connection) => {
     usersManager = new users_manager(connection);
     projectsManager = new projects_manager(connection);
     activitiesManager = new activities_manager(connection);
+    advancesManager = new advances_manager(connection);
 };
 
 const connectToBD = (componentsInitializer) => {
@@ -23,7 +26,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "",
+        password: "leliberteHal0",
         database: "projectsmanager",
     });
 
@@ -85,6 +88,10 @@ const getAllActivityUser = (req, res) => {
     activitiesManager.getAllActivityUser(req.body, res);
 }
 
+const createAdvance = (req, res) => {
+    advancesManager.createAdvance(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -98,5 +105,6 @@ module.exports = {
     login,
     disableProject,
     deleteActivity,
-    getAllActivityUser
+    getAllActivityUser,
+    createAdvance
 };
