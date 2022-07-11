@@ -9,14 +9,18 @@ const { createUser, createProject, createActivity,
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
 router.post('/createActivity', createActivity);
-router.get('/getUsers', getAllUsers);
-router.get('/getProjects', getAllProjects);
 router.post("/getActivity", getAllActivity);
 router.post('/deleteUser', desactivateUser);
 router.post('/assignActivityToUser', assignActivityToUser);
 router.post('/login', login);
-router.delete('/deleteProject', disableProject);
-router.delete('/deleteActivity', deleteActivity);
 router.post('/getAllActivityUser', getAllActivityUser);
 router.post('/createAdvance', createAdvance)
+
+router.delete('/deleteProject', disableProject);
+router.delete('/deleteActivity', deleteActivity);
+
+router.get('/getUsers', getAllUsers);
+router.get('/getProjects', getAllProjects);
+//router.get('/getAdvances', getAdvances)
+
 module.exports = router;
