@@ -96,6 +96,26 @@ const getAdvancesByUser = (req, res) => {
     advancesManager.getAdvancesByUser(req.body, res);
 }
 
+const editAdvance = (req, res) => {
+    advancesManager.editAdvance(req.body, res);
+}
+
+const getAdvanceToEdit = (req, res) => {
+    advancesManager.getAdvance(req.body, res);
+}
+
+const getActivityByID = (req, res) => {
+    activitiesManager.getActivityByID(req.body.activity_id, res);
+}
+
+const getAdvancesByActivity = (req, res) => {
+    advancesManager.getAdvanceByActivity(req.body, res);
+}
+
+const editActivity = (req, res) => {
+    activitiesManager.editActivity(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -111,5 +131,10 @@ module.exports = {
     deleteActivity,
     getAllActivityUser,
     createAdvance,
-    getAdvancesByUser
+    getAdvancesByUser,
+    editAdvance,
+    getAdvanceToEdit,
+    getActivityByID,
+    editActivity,
+    getAdvancesByActivity
 };

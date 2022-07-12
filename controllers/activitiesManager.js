@@ -4,6 +4,38 @@ class ActivitiesManager {
       this.db_connection = in_db_connection;
     }
 
+    getActivityByID(activity_id, res) {
+      this.db_connection.query("SELECT * FROM ACTIVITY WHERE Activity_Id = " + activity_id, function (err, result, fields) {
+        if (err) throw err
+        res.send(result[0]);
+      });
+    }
+
+    editActivity(activity_info, res) {
+      const activity_id = activity_info.Activity_Id;
+      const activity_name = activity_info.Activity_Name;
+      const activity_description = activity_info.Activity_Description;
+      const estimated_hours = activity_info.Estimated_Hours;
+      const priority_id = activity_info.Priority_Id;
+      const status_id = activity_info.Status_Id;
+
+      this.db_connection.query("SELECT * FROM ACTIVITY WHERE Activity_Id = " + activity_id, (err, result, fields) => {
+        if (err) {
+          console.log(err);
+        } else {
+          const project_id = result[0].Project_Id;
+          const query_text = "REPLACE INTO ACTIVITY (Activity_Id, Project_Id, Activity_Name, Activity_Description, Estimated_hours, Priority_Id, Status_Id) VALUES (" + activity_id + ", " + project_id + ", '" + activity_name + "', '" + activity_description + "', " + estimated_hours + ", '" + priority_id + "', '" + status_id + "')";
+          this.db_connection.query(query_text, (err, result, fields) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.send(result[0]);
+            }
+          });
+        }
+      });
+    }
+
     getAllActivityUser(req, res) {
       this.db_connection.query(
         "SELECT * FROM activity WHERE Activity_Id IN (SELECT `Activity_Id` FROM activity_assignment WHERE User_Id = " +
