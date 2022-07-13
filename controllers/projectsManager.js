@@ -3,11 +3,45 @@ class ProjectsManager {
   constructor(in_db_connection) {
     this.db_connection = in_db_connection;
   }
-//UPDATE table1 SET col_a='new' WHERE key_col='key'
+
+  editProject(project_info, res) {
+
+    const project_id = project_info.project_id;
+    const project_initial_date = project_info.initial_date;
+    const project_final_date = project_info.final_date;
+    const project_name = project_info.project_name;
+    const project_status = project_info.status_id;
+
+    const initial_date = project_initial_date.replace(/\//g,'-');
+    const final_date = project_final_date.replace(/\//g,'-');
+
+    const query_text = "UPDATE PROJECT SET Project_Name = '" + project_name + "', Initial_Date = STR_TO_DATE('" + initial_date + "', '%d-%m-%Y'), Final_Date = STR_TO_DATE('" + final_date + "', '%d-%m-%Y'), Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
+
+    this.db_connection.query(query_text, function (err, result, fields) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  }
+
   disableProject(body, res) { // validaciones
     this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, function (err, result, fields) {
       if (err) {
         console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+  }
+
+  getProjectByID(project_info, res) {
+
+    this.db_connection.query("SELECT * FROM PROJECT WHERE Project_Id = " + project_info.project_id, function (err, result, fields) {
+      if (err) {
+        res.send("mal");
       } else {
         res.send(result);
       }
@@ -23,7 +57,7 @@ class ProjectsManager {
       }
     });
   }
-//"INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id, Boss_Id) VALUES ('ALEX', 'daza ', 4, STR_TO_DATE('12-05-2022', '%d-%m-%Y'), 12333, 22, 'mati2567@gmail.com', '3121222224', 'Linda1234', 'r.mati2567@gmail.com.h', 1, )"
+
   insertProject(project_info, res) {
 
     //getting request body values

@@ -28,6 +28,7 @@ const connectToBD = (componentsInitializer) => {
         user: "root",
         password: "leliberteHal0",
         database: "projectsmanager",
+        timezone : 'local'
     });
 
     mysql_connection.connect(function (err) { 
@@ -116,6 +117,14 @@ const editActivity = (req, res) => {
     activitiesManager.editActivity(req.body, res);
 }
 
+const getProjectByID = (req, res) => {
+    projectsManager.getProjectByID(req.body, res);
+}
+
+const editProject = (req, res) => {
+    projectsManager.editProject(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -136,5 +145,7 @@ module.exports = {
     getAdvanceToEdit,
     getActivityByID,
     editActivity,
-    getAdvancesByActivity
+    getAdvancesByActivity,
+    getProjectByID,
+    editProject
 };
