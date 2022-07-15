@@ -23,7 +23,7 @@ class ActivitiesManager {
         if (err) {
           console.log(err);
         } else {
-          const query_text = "UPDATE ACTIVITY SET Activity_Name = '" + activity_name + "', Activity_Description = '" + activity_description + "', Estimated_Hours = " + estimated_hours + ", Priority_Id = " + priority_id + ", Status_Id = " + status_id + " WHERE Activity_Id = " + activity_id;
+          const query_text = "UPDATE ACTIVITY SET Activity_Name = '" + activity_name + "', Activity_Description = '" + activity_description + "', Estimated_Hours = " + estimated_hours + ", Priority_Id = '" + priority_id + "', Status_Id = '" + status_id + "' WHERE Activity_Id = " + activity_id;
           this.db_connection.query(query_text, (err, result, fields) => {
             if (err) {
               console.log(err);
