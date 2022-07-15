@@ -23,8 +23,7 @@ class ActivitiesManager {
         if (err) {
           console.log(err);
         } else {
-          const project_id = result[0].Project_Id;
-          const query_text = "REPLACE INTO ACTIVITY (Activity_Id, Project_Id, Activity_Name, Activity_Description, Estimated_hours, Priority_Id, Status_Id) VALUES (" + activity_id + ", " + project_id + ", '" + activity_name + "', '" + activity_description + "', " + estimated_hours + ", '" + priority_id + "', '" + status_id + "')";
+          const query_text = "UPDATE ACTIVITY SET Activity_Name = '" + activity_name + "', Activity_Description = '" + activity_description + "', Estimated_Hours = " + estimated_hours + ", Priority_Id = " + priority_id + ", Status_Id = " + status_id + " WHERE Activity_Id = " + activity_id;
           this.db_connection.query(query_text, (err, result, fields) => {
             if (err) {
               console.log(err);
