@@ -7,7 +7,7 @@ class AdvancesManager {
     getAdvance(advance_info, res) {
       this.db_connection.query("SELECT * FROM ADVANCE WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
         if (err) throw err
-        res.send(result);
+        res.send(result[0]);
       });
     }
 

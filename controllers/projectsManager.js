@@ -68,24 +68,26 @@ class ProjectsManager {
 
     //validators
     const project_name_length = project_name.length;
-    const regex_date_validator = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    // const regex_date_validator = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
 
     //conditional to validate data entries
-    if(regex_date_validator.test(initial_date) && regex_date_validator.test(final_date)
-       && project_name_length > 0 && project_name_length < 51) {
-
+    // regex_date_validator.test(initial_date) && regex_date_validator.test(final_date)&& 
+    if(project_name_length > 0 && project_name_length < 51) {
+      console.log("Entro a la query");
     //fixing chars replacements on date for "/" before inserting to DB
-      const splited_initial_date = initial_date.replace(/\//g,'-');
-      const splited_final_date = final_date.replace(/\//g,'-');
+      // const splited_initial_date = initial_date.replace(/\//g,'-');
+      // const splited_final_date = final_date.replace(/\//g,'-');
 
       // VALIDAR ESTADO
       
     //Insertion in DB
-      const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', STR_TO_DATE('" + splited_initial_date + "', '%d-%m-%Y'), STR_TO_DATE('" + splited_final_date + "', '%d-%m-%Y'), '" + project_status + "')";
+      const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', '" + initial_date + "', '" + final_date + "', '" + project_status + "')";
       this.db_connection.query(insertion_query, function (err, result, fields) {
         if (err) {
+          console.log(err);
         res.send('mal'); 
         } else {
+          console.log("salio bien");
           res.send('good'); 
         }
       });
