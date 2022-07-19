@@ -1,7 +1,8 @@
 class ProjectsManager {
 
-  constructor(in_db_connection) {
+  constructor(in_db_connection, moment) {
     this.db_connection = in_db_connection;
+    this.moment = moment;
   }
 
   editProject(project_info, res) {
@@ -12,10 +13,8 @@ class ProjectsManager {
     const project_name = project_info.project_name;
     const project_status = project_info.status_id;
 
-    const initial_date = project_initial_date.replace(/\//g,'-');
-    const final_date = project_final_date.replace(/\//g,'-');
-
-    const query_text = "UPDATE PROJECT SET Project_Name = '" + project_name + "', Initial_Date = STR_TO_DATE('" + initial_date + "', '%d-%m-%Y'), Final_Date = STR_TO_DATE('" + final_date + "', '%d-%m-%Y'), Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
+    //aquí FALLARÁ
+    const query_text = "UPDATE PROJECT SET Project_Name = '" + project_name + "', Initial_Date = " + project_initial_date + ", Final_Date = " + project_final_date + ", Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
 
     this.db_connection.query(query_text, function (err, result, fields) {
       if (err) {
@@ -62,23 +61,18 @@ class ProjectsManager {
 
     //getting request body values
     const project_name = project_info.project_name;
-    const initial_date = project_info.initial_date;
-    const final_date = project_info.final_date;
+    const project_initial_date = project_info.initial_date;
+    const project_final_date = project_info.final_date;
     const project_status = project_info.project_status;
 
     //validators
     const project_name_length = project_name.length;
-    // const regex_date_validator = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
 
-    //conditional to validate data entries
-    // regex_date_validator.test(initial_date) && regex_date_validator.test(final_date)&& 
     if(project_name_length > 0 && project_name_length < 51) {
       console.log("Entro a la query");
-    //fixing chars replacements on date for "/" before inserting to DB
-      // const splited_initial_date = initial_date.replace(/\//g,'-');
-      // const splited_final_date = final_date.replace(/\//g,'-');
 
-      // VALIDAR ESTADO
+      const initial_date = this.moment(new Date(project_initial_date)).format("YYYY-MM-DD hh:mm:ss");
+      const final_date = this.moment(new Date(project_final_date)).format("YYYY-MM-DD hh:mm:ss");
       
     //Insertion in DB
       const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', '" + initial_date + "', '" + final_date + "', '" + project_status + "')";

@@ -3,6 +3,7 @@ const users_manager = require("../controllers/usersManager.js");
 const projects_manager = require("../controllers/projectsManager.js");
 const activities_manager = require("../controllers/activitiesManager.js");
 const advances_manager = require("../controllers/advanceManager.js");
+var moment = require('moment');
 const { Server } = require("socket.io");
 let usersManager;
 let projectsManager;
@@ -15,10 +16,10 @@ const initController = () => {
 };
 
 const initComponents = (connection) => {
-    usersManager = new users_manager(connection);
-    projectsManager = new projects_manager(connection);
-    activitiesManager = new activities_manager(connection);
-    advancesManager = new advances_manager(connection);
+    usersManager = new users_manager(connection, moment);
+    projectsManager = new projects_manager(connection, moment);
+    activitiesManager = new activities_manager(connection, moment);
+    advancesManager = new advances_manager(connection, moment);
 };
 
 const connectToBD = (componentsInitializer) => {
@@ -26,7 +27,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "",
+        password: "leliberteHal0",
         database: "projectsmanager",
         timezone : 'local'
     });
