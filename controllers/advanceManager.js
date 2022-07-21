@@ -1,7 +1,8 @@
 class AdvancesManager {
 
-    constructor(in_db_connection) {
+    constructor(in_db_connection, moment) {
       this.db_connection = in_db_connection;
+      this.moment = moment;
     }
 
     getAdvance(advance_info, res) {
@@ -25,7 +26,7 @@ class AdvancesManager {
           const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
           const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
 
-          const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Activity_Id, User_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id +", " + activity_id + ", " + user_id + ", '" + advance_comments +"', '" + initial_hour + "', '" + final_hour + "'))";
+          const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Activity_Id, User_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id +", " + activity_id + ", " + user_id + ", '" + advance_comments +"', '" + initial_hour + "', '" + final_hour + "')";
           this.db_connection.query(insertion_query, function (err, result, fields) {
             if (err) throw err
             res.send(result);
@@ -55,7 +56,7 @@ class AdvancesManager {
         const user_id = advance_info.user_id;
         const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
         const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
-        const insertion_query = "INSERT INTO ADVANCE (Activity_Id, User_id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + activity_id + ", " + user_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "'))";
+        const insertion_query = "INSERT INTO ADVANCE (Activity_Id, User_id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + activity_id + ", " + user_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query, function (err, result, fields) {
             if (err) throw err
             res.send('1 Advance Inserted!');

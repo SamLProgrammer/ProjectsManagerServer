@@ -69,8 +69,6 @@ class ProjectsManager {
     const project_name_length = project_name.length;
 
     if(project_name_length > 0 && project_name_length < 51) {
-      console.log("Entro a la query");
-
       const initial_date = this.moment(new Date(project_initial_date)).format("YYYY-MM-DD hh:mm:ss");
       const final_date = this.moment(new Date(project_final_date)).format("YYYY-MM-DD hh:mm:ss");
       

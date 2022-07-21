@@ -35,7 +35,6 @@ class ActivitiesManager {
           req.user_id +
           ")",
         function (err, result, fields) {
-          console.log(req.user_id);
           if (err) {
             console.log(err);
             res.status(500).send("mal");

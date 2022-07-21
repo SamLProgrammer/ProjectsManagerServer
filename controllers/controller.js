@@ -27,7 +27,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "leliberteHal0",
+        password: "",
         database: "projectsmanager",
         timezone : 'local'
     });
@@ -44,7 +44,6 @@ const createUser = (req, res) => {
 };
 
 const createActivity = (req, res) => {
-    console.log('Insertando activity')
     activitiesManager.insertActivity(req.body, res);
 }
 
