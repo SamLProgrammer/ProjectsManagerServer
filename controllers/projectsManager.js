@@ -14,7 +14,7 @@ class ProjectsManager {
     const project_status = project_info.status_id;
 
     //aquí FALLARÁ
-    const query_text = "UPDATE PROJECT SET Project_Name = '" + project_name + "', Initial_Date = " + project_initial_date + ", Final_Date = " + project_final_date + ", Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
+    const query_text = "UPDATE PROJECT SET Project_Name = '" + project_name + "', Initial_Date = '" + project_initial_date + "', Final_Date = '" + project_final_date + "', Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
 
     this.db_connection.query(query_text, function (err, result, fields) {
       if (err) {
