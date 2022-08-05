@@ -5,6 +5,26 @@ class AdvancesManager {
       this.moment = moment;
     }
 
+  hoursStatsPerUser(body, res) {
+    const initial_time = body.initial_time;
+    const date = new Date();
+    const final_time = (date < Date.parse(body.final_time)) ? date.toISOString() : body.final_time ;
+    const user_id = body.user_id;
+    const query_string = "SELECT * FROM advance WHERE Initial_Time > '" + initial_time + "' AND Final_Time < '" + final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+    let worked_hours = 0;
+    this.db_connection.query(query_string, function (err, result, fields) {
+      if (err) {
+        res.send("mal");
+      } else {
+        result.forEach(element => {
+          let diff = Math.abs(element.Final_Time - element.Initial_Time);
+          worked_hours += diff/3600000;
+        });
+        res.send({worked_hours});
+      }
+    });
+  }
+
     getAdvance(advance_info, res) {
       this.db_connection.query("SELECT * FROM ADVANCE WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
         if (err) throw err
@@ -36,7 +56,8 @@ class AdvancesManager {
     }
 
     getAdvancesByUser(advance_info, res) {
-        this.db_connection.query("SELECT * FROM ADVANCE WHERE User_Id = " + advance_info.user_id, function (err, result, fields) {
+      const query_string = "SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + advance_info.user_id + ")";
+        this.db_connection.query(query_string, function (err, result, fields) {
             if (err) throw err
             res.send(result);
           });
@@ -52,11 +73,10 @@ class AdvancesManager {
     createAdvance(advance_info, res) {
 
         const advance_comments = advance_info.comments;
-        const activity_id = advance_info.activity_id;
-        const user_id = advance_info.user_id;
+        const activity_assignment_id = advance_info.activity_assignment_id;
         const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
         const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
-        const insertion_query = "INSERT INTO ADVANCE (Activity_Id, User_id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + activity_id + ", " + user_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+        const insertion_query = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + activity_assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query, function (err, result, fields) {
             if (err) throw err
             res.send('1 Advance Inserted!');

@@ -27,7 +27,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "",
+        password: "leliberteHal0",
         database: "projectsmanager",
         timezone : 'local'
     });
@@ -125,6 +125,10 @@ const editProject = (req, res) => {
     projectsManager.editProject(req.body, res);
 }
 
+const hoursStatsPerUser = (req, res) => {
+    advancesManager.hoursStatsPerUser(req.body, res);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -147,5 +151,6 @@ module.exports = {
     editActivity,
     getAdvancesByActivity,
     getProjectByID,
-    editProject
+    editProject,
+    hoursStatsPerUser
 };

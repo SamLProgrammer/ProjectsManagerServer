@@ -6,7 +6,7 @@ const { createUser, createProject, createActivity,
     login, disableProject, deleteActivity, getAllActivityUser,
     createAdvance, getAdvancesByUser, editAdvance, getAdvanceToEdit,
     getActivityByID, editActivity, getAdvancesByActivity,
-    getProjectByID, editProject} = require('../controllers/controller');
+    getProjectByID, editProject, hoursStatsPerUser} = require('../controllers/controller');
 
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
@@ -25,6 +25,7 @@ router.post('/getActivityToEdit', getActivityByID);
 router.post('/editActivity', editActivity);
 router.post('/getProjectToEdit', getProjectByID);
 router.post('/editProject', editProject);
+router.post('/hoursStatsPerUser', hoursStatsPerUser);
 
 router.delete('/deleteProject', disableProject);
 router.delete('/deleteActivity', deleteActivity);

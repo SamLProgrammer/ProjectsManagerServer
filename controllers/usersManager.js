@@ -25,7 +25,7 @@ class UsersManager {
   }
 
   getAllUsers(res) {  // validaciones
-    this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1 AND Boss_Id != NULL", function (err, result, fields) {
       if (err) {
         res.send("mal");
       } else {
