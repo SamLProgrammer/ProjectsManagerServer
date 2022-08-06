@@ -55,15 +55,18 @@ class ActivitiesManager {
     let insertion_query_1 = "INSERT INTO ACTIVITY_ASSIGNMENT (";
     let insertion_query_2 = " VALUES (";
     let limit = Object.keys(act_info).length -1;
+    console.log('limit: ' + limit);
     let counter = 0;
     for (var key in act_info) {
       switch (key) {
         case 'user_id':
-            insertion_query_1 += (counter == limit) ? "User_Id)" : "User_Id, ";
-            insertion_query_2 += (counter == limit) ? user_id + ")" : user_id + ", ";
+          if (/^[0-9]+(,[0-9]+)?$/.test(user_id)) {
+              insertion_query_1 += (counter == limit) ? "User_Id)" : "User_Id, ";
+              insertion_query_2 += (counter == limit) ? user_id + ")" : user_id + ", ";
+            }
           break;
         case 'activity_id':
-          if (act_info.activity_id.length > 0) {
+          if (/^[0-9]+(,[0-9]+)?$/.test(activity_id)) {
             insertion_query_1 += (counter == limit) ? "Activity_Id)" : "Activity_Id, ";
             insertion_query_2 += (counter == limit) ? activity_id + ") " : activity_id + ", ";
           }
