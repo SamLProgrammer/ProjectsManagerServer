@@ -20,10 +20,20 @@ class AdvancesManager {
           const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
           const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
 
-          const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
-          this.db_connection.query(insertion_query, function (err, result, fields) {
-            if (err) throw err
-            res.send(result);
+          const insertion_query_1 = "SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id;
+          this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
+            if (err1) {
+              throw err1
+            } else {
+              const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+          this.db_connection.query(insertion_query, (err, result, fields) => {
+            if (err) {
+              throw err
+            } else {
+            res.send('Advance Successfully Updated!');
+            }
+          });
+            }
           });
     }
 
