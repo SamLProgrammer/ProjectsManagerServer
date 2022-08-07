@@ -17,8 +17,8 @@ class AdvancesManager {
       const advance_id = advance_info.advance_id;
       const advance_comments = advance_info.comments;
 
-          const initial_hour = this.moment(new Date(advance_info.initial_hour.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
-          const final_hour = this.moment(new Date(advance_info.final_hour.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
+          const initial_hour = this.moment(new Date(advance_info.initial_hour.slice(0, -1))).format("YYYY-MM-DD HH:mm:ss");
+          const final_hour = this.moment(new Date(advance_info.final_hour.slice(0, -1))).format("YYYY-MM-DD HH:mm:ss");
 
           const insertion_query_1 = "SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id;
           this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
@@ -56,8 +56,8 @@ class AdvancesManager {
         const user_id = advance_info.user_id;
         const activity_id = advance_info.activity_id;
         const advance_comments = advance_info.comments;
-        const initial_hour = this.moment(new Date(advance_info.initial_hour.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
-        const final_hour = this.moment(new Date(advance_info.final_hour.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
+        const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
+        const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
         const insertion_query_1 = "SELECT Activity_Assignment_id FROM Activity_Assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
         this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
           if (err1) {

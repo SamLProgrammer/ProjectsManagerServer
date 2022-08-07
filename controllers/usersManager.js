@@ -121,7 +121,7 @@ class UsersManager {
       const boss_id_index = (user_info.boss_id.length == 0) ? ")": ", Boss_Id)";
       let login_user = 'r.' + user_info.user_email + '.h';
       const document_insertion_query = "INSERT INTO identity_document (Type_Id, Document_word) VALUES ('" + user_info.identity_document_type + "', '" + user_info.identity_document_word + "')";
-      const birth_date = this.moment(new Date(user_info.birth_date)).format("YYYY-MM-DD hh:mm:ss");
+      const birth_date = this.moment(new Date(user_info.birth_date)).format("YYYY-MM-DD HH:mm:ss");
       this.db_connection.query(document_insertion_query, (err0, result0, fields0) => {
         if (err0) { throw err0 }
         else {

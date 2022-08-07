@@ -69,8 +69,8 @@ class ProjectsManager {
     const project_name_length = project_name.length;
 
     if(project_name_length > 0 && project_name_length < 51) {
-      const initial_date = this.moment(new Date(project_initial_date)).format("YYYY-MM-DD hh:mm:ss");
-      const final_date = this.moment(new Date(project_final_date)).format("YYYY-MM-DD hh:mm:ss");
+      const initial_date = this.moment(new Date(project_initial_date)).format("YYYY-MM-DD HH:mm:ss");
+      const final_date = this.moment(new Date(project_final_date)).format("YYYY-MM-DD HH:mm:ss");
       
     //Insertion in DB
       const insertion_query = "INSERT INTO PROJECT ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', '" + initial_date + "', '" + final_date + "', '" + project_status + "')";

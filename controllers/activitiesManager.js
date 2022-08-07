@@ -73,14 +73,14 @@ class ActivitiesManager {
           break;
         case 'initial_time':
           if (/^[0-9]{4}-((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01])|(0[469]|11)-(0[1-9]|[12][0-9]|30)|(02)-(0[1-9]|[12][0-9]))T(0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])\.[0-9]{3}Z$/.test(act_info.initial_time)) {
-            const time = this.moment(new Date(act_info.initial_time.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
+            const time = this.moment(new Date(act_info.initial_time.slice(0, -1))).format("YYYY-MM-DD HH:mm:ss");
             insertion_query_1 += (counter == limit) ? "Initial_Time)" : "Initial_Time, ";
             insertion_query_2 += (counter == limit) ? "'" + time + "')" : "'" + time + "', ";
           }
           break;
         case 'final_time':
           if (/^[0-9]{4}-((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01])|(0[469]|11)-(0[1-9]|[12][0-9]|30)|(02)-(0[1-9]|[12][0-9]))T(0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])\.[0-9]{3}Z$/.test(act_info.final_time)) {
-            const time = this.moment(new Date(act_info.final_time.slice(0, -1))).format("YYYY-MM-DD hh:mm:ss");
+            const time = this.moment(new Date(act_info.final_time.slice(0, -1))).format("YYYY-MM-DD HH:mm:ss");
             insertion_query_1 += (counter == limit) ? 'Final_Time)' : 'Final_Time, ';
             insertion_query_2 += (counter == limit) ? "'" + time + "')" : "'" + time + "', ";
           }
