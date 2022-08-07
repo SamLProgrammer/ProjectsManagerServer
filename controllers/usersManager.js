@@ -11,6 +11,8 @@ class UsersManager {
     const final_time = (date < Date.parse(body.final_time)) ? date.toISOString() : body.final_time ;
     const user_id = body.user_id;
     const query_string = "SELECT * FROM advance WHERE Initial_Time > '" + initial_time + "' AND Final_Time < '" + final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+    const future_query_string = "SELECT * FROM advance WHERE Initial_Time > '" + final_time + "' AND Final_Time < '" + body.final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+    
     //
     const a = this.moment(initial_time);
     const b = this.moment(final_time);
@@ -19,7 +21,7 @@ class UsersManager {
     const working_hours = (c - weekends_amount)*40;
     //
     let worked_hours = 0;
-    this.db_connection.query(query_string, function (err, result, fields) {
+    this.db_connection.query(query_string, (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {
@@ -27,7 +29,18 @@ class UsersManager {
           let diff = Math.abs(element.Final_Time - element.Initial_Time);
           worked_hours += diff/3600000;
         });
-        res.send({worked_hours, not_worked_hours : working_hours - worked_hours});
+        this.db_connection.query(future_query_string, (err1, result1, fields1) => {
+          if (err1) {
+            res.send("mal");
+          } else {
+            let pending_hours = 0;
+            result1.forEach(element => {
+              let diff = Math.abs(element.Final_Time - element.Initial_Time);
+              pending_hours += diff/3600000;
+            });
+            res.send({worked_hours, not_worked_hours : working_hours - worked_hours, pending_hours});
+          }
+        });
       }
     });
   }
