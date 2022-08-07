@@ -17,8 +17,11 @@ class UsersManager {
     const a = this.moment(initial_time);
     const b = this.moment(final_time);
     const c = b.diff(a, 'days');
-    const weekends_amount = (parseInt(((c - (a.day() % 6))/7))+1)*2;
-    const working_hours = (c - weekends_amount)*40;
+    console.log(c);
+    const initial_weeknd = (6 - a.day() > c) ? 0 : 1 ;
+    const weekends_amount = (parseInt((c - (6 - a.day()))/7) + initial_weeknd)*2;
+    const working_hours = (c - weekends_amount)*8;
+    console.log(weekends_amount);
     //
     let worked_hours = 0;
     this.db_connection.query(query_string, (err, result, fields) => {
@@ -38,6 +41,7 @@ class UsersManager {
               let diff = Math.abs(element.Final_Time - element.Initial_Time);
               pending_hours += diff/3600000;
             });
+            console.log(working_hours);
             res.send({worked_hours, not_worked_hours : working_hours - worked_hours, pending_hours});
           }
         });
