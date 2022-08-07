@@ -5,7 +5,7 @@ class UsersManager {
     this.moment = moment;
   }
 
-  hoursStatsPerUser(body, res) {
+  statsPerUser(body, res) {
     const initial_time = body.initial_time;
     const date = new Date();
     const final_time = (date < Date.parse(body.final_time)) ? date.toISOString() : body.final_time ;

@@ -126,7 +126,7 @@ const editProject = (req, res) => {
 }
 
 const hoursStatsPerUser = (req, res) => {
-    usersManager.hoursStatsPerUser(req.body, res);
+    usersManager.statsPerUser(req.body, res);
 }
 
 module.exports = {
