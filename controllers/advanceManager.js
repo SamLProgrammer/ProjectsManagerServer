@@ -71,16 +71,24 @@ class AdvancesManager {
     }
 
     createAdvance(advance_info, res) {
-
+        const user_id = advance_info.user_id;
+        const activity_id = advance_info.activity_id;
         const advance_comments = advance_info.comments;
-        const activity_assignment_id = advance_info.activity_assignment_id;
+        //const activity_assignment_id = advance_info.activity_assignment_id;
         const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
         const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
-        const insertion_query = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + activity_assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
-        this.db_connection.query(insertion_query, function (err, result, fields) {
-            if (err) throw err
-            res.send('1 Advance Inserted!');
-          });
+        const insertion_query_1 = "SELECT Activity_Assignment_id FROM Activity_Assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
+        this.db_connection.query(insertion_query_1, function (err, result1, fields) {
+          if (err) {
+            throw err
+          } else {
+            const insertion_query_2 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+            this.db_connection.query(insertion_query_2, function (err, result, fields) {
+                if (err) throw err
+                res.send('1 Advance Inserted!');
+              });
+          }
+        });
     }
 
   }
