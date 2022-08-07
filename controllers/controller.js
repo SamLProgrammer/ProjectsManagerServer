@@ -126,7 +126,7 @@ const editProject = (req, res) => {
 }
 
 const hoursStatsPerUser = (req, res) => {
-    advancesManager.hoursStatsPerUser(req.body, res);
+    usersManager.hoursStatsPerUser(req.body, res);
 }
 
 module.exports = {
