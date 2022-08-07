@@ -78,9 +78,9 @@ class AdvancesManager {
         const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD hh:mm:ss");
         const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD hh:mm:ss");
         const insertion_query_1 = "SELECT Activity_Assignment_id FROM Activity_Assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
-        this.db_connection.query(insertion_query_1, function (err, result1, fields) {
-          if (err) {
-            throw err
+        this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
+          if (err1) {
+            throw err1
           } else {
             const insertion_query_2 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
             this.db_connection.query(insertion_query_2, function (err, result, fields) {
