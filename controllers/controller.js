@@ -27,7 +27,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "localhost",
         user: "root",
-        password: "",
+        password: "leliberteHal0",
         database: "projectsmanager",
         timezone : 'local'
     });
@@ -90,7 +90,7 @@ const getAllActivityUser = (req, res) => {
 }
 
 const createAdvance = (req, res) => {
-    advancesManager.createAdvance(req.body, res);
+    advancesManager.validateAndCreateAdvance(req.body, res);
 }
 
 const getAdvancesByUser = (req, res) => {
@@ -98,7 +98,7 @@ const getAdvancesByUser = (req, res) => {
 }
 
 const editAdvance = (req, res) => {
-    advancesManager.editAdvance(req.body, res);
+    advancesManager.validateAndEditAdvance(req.body, res);
 }
 
 const getAdvanceToEdit = (req, res) => {

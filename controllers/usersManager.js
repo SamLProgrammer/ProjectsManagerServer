@@ -21,7 +21,6 @@ class UsersManager {
     const initial_weeknd = (6 - a.day() > c) ? 0 : 1 ;
     const weekends_amount = (parseInt((c - (6 - a.day()))/7) + initial_weeknd)*2;
     const working_hours = (c - weekends_amount)*8;
-    console.log(weekends_amount);
     //
     let worked_hours = 0;
     this.db_connection.query(query_string, (err, result, fields) => {
