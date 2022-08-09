@@ -14,10 +14,9 @@ class UsersManager {
     const future_query_string = "SELECT * FROM advance WHERE Initial_Time > '" + final_time + "' AND Final_Time < '" + body.final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
     
     //
-    const a = this.moment(initial_time);
+    const a = this.moment(initial_time).subtract(1, 'days');
     const b = this.moment(final_time);
     const c = b.diff(a, 'days');
-    console.log(c);
     const initial_weeknd = (6 - a.day() > c) ? 0 : 1 ;
     const weekends_amount = (parseInt((c - (6 - a.day()))/7) + initial_weeknd)*2;
     const working_hours = (c - weekends_amount)*8;
