@@ -11,7 +11,7 @@ const { createUser, createProject, createActivity,
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
 router.post('/createActivity', createActivity);
-router.post("/getActivity", getAllActivity);
+router.post('/getActivity', getAllActivity);
 router.post('/deleteUser', desactivateUser);
 router.post('/assignActivityToUser', assignActivityToUser);
 router.post('/login', login);

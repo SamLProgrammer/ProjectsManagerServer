@@ -126,13 +126,12 @@ class ActivitiesManager {
 
   getAllActivity(req, res) { // validaciones
     this.db_connection.query(
-      "SELECT * FROM activity WHERE Project_Id = " + req.project_id,
-      function (err, result, fields) {
+      "SELECT * FROM activity a, activity_assignment b WHERE  a.Activity_Id = b.Activity_id AND a.Project_Id = " + req.project_id, function (err, result, fields) {
         if (err) {
           res.status(500).send("mal");
         } else {
           if (result.length > 0) {
-            res.status(200).send(result)
+            res.status(200).send(result);
           }
           // res.send(result);
         }
