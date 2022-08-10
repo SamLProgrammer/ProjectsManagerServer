@@ -90,7 +90,7 @@ const getAllActivityUser = (req, res) => {
 }
 
 const createAdvance = (req, res) => {
-    advancesManager.validateAndCreateAdvance(req.body, res);
+    advancesManager.firstAdvanceValidation(req.body, res);
 }
 
 const getAdvancesByUser = (req, res) => {

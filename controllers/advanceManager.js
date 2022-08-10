@@ -12,6 +12,14 @@ class AdvancesManager {
     });
   }
 
+  firstAdvanceValidation(advance_info, res) {
+    if(this.moment(new Date(element.Initial_Time)) > this.moment(new Date(element.Final_Time))) {
+      res.send({warning: 'invalid advance times'});
+    } else {
+      this.validateAndCreateAdvance(advance_info, res);
+    }
+  }
+
   validateAndCreateAdvance(advance_info, res) {
     const user_id = advance_info.user_id;
     const activity_id = advance_info.activity_id;
