@@ -133,11 +133,12 @@ class ActivitiesManager {
           if (result.length > 0) {
             res.status(200).send(result);
           } else {
-            this.db_connection.query("SELECT * FROM activity WHERE Project_Id = " + req.project_id, (err0, result0, fields0) => {
+            this.db_connection.query("SELECT * FROM activity WHERE Project_Id = " + req.project_id + "AND Activity_Id NOT IN (SELECT Activity_Id FROM Activity_Assignment)", (err0, result0, fields0) => {
               if (err0) {
                 console.log(err0);
               } else {
-                res.status(200).send(result0);
+                console.log(result.concat(result0));
+                res.status(200).send(result.concat(result0));
               }
             });
           }
