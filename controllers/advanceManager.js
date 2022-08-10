@@ -41,7 +41,7 @@ class AdvancesManager {
           }
         });
         if(flag) {
-          res.send('overlapped advance');
+          res.send({overlaped: true});
         }
         else {
           const insertion_query_1 = "SELECT * FROM Activity_Assignment WHERE Activity_Id = " + activity_id + " AND User_Id = " + user_id;
@@ -141,12 +141,14 @@ class AdvancesManager {
                   (aFinal_Time >= eInitial_Time && aFinal_Time <= eFinal_Time) ||
                   (eInitial_Time >= aInitial_Time && eInitial_Time <= aFinal_Time) ||
                   (eFinal_Time >= aInitial_Time && eFinal_Time <= aFinal_Time)) {
-                  res.send('overlapped advance');
                   flag = true;
                 }
               }
             });
-            if (!flag) {
+            if(flag) {
+              res.send({overlapped: true});
+            }
+            else {
             const insertion_query_1 = "SELECT * FROM Activity_Assignment WHERE Activity_Id = " + result0[0].Activity_Id + " AND User_Id = " + result0[0].User_Id;
             this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
               if (err1) {
