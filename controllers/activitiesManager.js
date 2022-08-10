@@ -130,7 +130,7 @@ class ActivitiesManager {
         if (err) {
           res.status(500).send("mal");
         } else {
-            this.db_connection.query("SELECT * FROM activity WHERE Project_Id = " + req.project_id + "AND Activity_Id NOT IN (SELECT Activity_Id FROM Activity_Assignment)", (err0, result0, fields0) => {
+            this.db_connection.query("SELECT * FROM activity WHERE Project_Id = " + req.project_id + " AND Activity_Id NOT IN (SELECT Activity_Id FROM Activity_Assignment)", (err0, result0, fields0) => {
               if (err0) {
                 console.log(err0);
               } else {
