@@ -41,7 +41,7 @@ class AdvancesManager {
           }
         });
         if(flag) {
-          res.send({overlaped: true});
+          res.send({overlapped: true});
         }
         else {
           const insertion_query_1 = "SELECT * FROM Activity_Assignment WHERE Activity_Id = " + activity_id + " AND User_Id = " + user_id;
@@ -125,7 +125,7 @@ class AdvancesManager {
       } else {
         const user_id = result0[0].User_Id;
         let flag = false;
-        const insertion_query_01 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+        const insertion_query_01 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Advance_Id != " + advance_id;
         this.db_connection.query(insertion_query_01, (err01, result01, field01) => {
           if (err01) {
             console.log(err01);
