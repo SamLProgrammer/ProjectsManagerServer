@@ -95,8 +95,18 @@ class AdvancesManager {
                             } else {
                               const insertion_query_7 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                               this.db_connection.query(insertion_query_7, function (err6, result6, fields6) {
-                                if (err6) throw err6
-                                res.send({ warning: (remaining_hours_for_activity > future_free_time) });
+                                if (err6) {
+                                  console.log(err6);
+                                } else  {
+                                  if((remaining_hours_for_activity > future_free_time)) {
+                                    this.db_connection.query("DELETE FROM ADVANCE WHERE Advance_Id = " + result6.insertId, (err12, result12, fields12) => {
+                                      if(err12) {
+                                        throw err12;
+                                      }
+                                    });
+                                  res.send({ warning: (remaining_hours_for_activity > future_free_time) });
+                                  }
+                                }
                               });
                             }
                           });
@@ -193,7 +203,7 @@ class AdvancesManager {
                             const future_free_time = working_hours - future_working_hours;
                             const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
                             const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
-
+                            if(!(remaining_hours_for_activity > future_free_time)) {
                             const insertion_query_6 = "SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id;
                             this.db_connection.query(insertion_query_6, (err5, result5, fields5) => {
                               if (err5) {
@@ -209,6 +219,9 @@ class AdvancesManager {
                                 });
                               }
                             });
+                            } else {
+                              res.send({ warning: (remaining_hours_for_activity > future_free_time) });
+                            }
                           }
                         });
                       }
