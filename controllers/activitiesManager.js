@@ -32,10 +32,7 @@ class ActivitiesManager {
 
   getAllActivityUser(req, res) {
     this.db_connection.query(
-      "SELECT * FROM activity WHERE Activity_Id IN (SELECT `Activity_Id` FROM activity_assignment WHERE User_Id = " +
-      req.user_id +
-      ")",
-      function (err, result, fields) {
+      "SELECT * FROM activity WHERE Activity_Id IN (SELECT Activity_Id FROM activity_assignment WHERE User_Id = " + req.user_id + ")", (err, result, fields) => {
         if (err) {
           console.log(err);
           res.status(500).send("mal");
