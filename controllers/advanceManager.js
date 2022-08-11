@@ -14,7 +14,7 @@ class AdvancesManager {
 
   firstAdvanceValidation(advance_info, res) {
     if(this.moment(new Date(advance_info.initial_hour)) > this.moment(new Date(advance_info.final_hour))) {
-      res.send({warning: true});
+      res.send({warning: 'reversedTimes'});
     } else {
       this.validateAndCreateAdvance(advance_info, res);
     }
