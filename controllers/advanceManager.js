@@ -27,11 +27,29 @@ class AdvancesManager {
     second_limit.set('minute', 0);
     second_limit.set('second', 0);
     if(( initial_time > final_time )
-     || (initial_time.diff(final_time, 'hours') < 8 && ( initial_time < first_limit || final_time > second_limit))) {
+     || (final_time.diff(initial_time, 'hours') < 8 && ( initial_time < first_limit || final_time > second_limit))) {
+      console.log('entre al que no era 1');
       res.send({time_off: 'reversedTimes'});
-    } else {
+    } else if (final_time.diff(initial_time, 'hours') > 8 && initial_time > first_limit){
+      console.log('entré acá');
+      this.getAdvances("SELECT * FROM user").then((result) => console.log(result)).catch((err) => console.log(err));
+      res.send({oli: 'oli'});
+    }else {
+      console.log('entre al que no era 2');
       this.validateAndCreateAdvance(advance_info, res);
     }
+  }
+
+  getAdvances(query_string) {
+    return new Promise((resolve, reject) => {
+      this.db_connection.query(query_string, (err, result, fields) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
   }
 
   validateAndCreateAdvance(advance_info, res) {
@@ -126,8 +144,8 @@ class AdvancesManager {
                                         throw err12;
                                       }
                                     });
-                                  res.send({ warning: (remaining_hours_for_activity > future_free_time) });
                                   }
+                                  res.send({ warning: (remaining_hours_for_activity > future_free_time) });
                                 }
                               });
                             }
