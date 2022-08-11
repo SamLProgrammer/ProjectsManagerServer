@@ -13,7 +13,21 @@ class AdvancesManager {
   }
 
   firstAdvanceValidation(advance_info, res) {
-    if(this.moment(new Date(advance_info.initial_hour)) > this.moment(new Date(advance_info.final_hour))) {
+    const initial_time = this.moment(new Date(advance_info.initial_hour));
+    const final_time = this.moment(new Date(advance_info.final_hour));
+
+    let first_limit = this.moment(new Date(advance_info.initial_hour));
+    let second_limit = this.moment(new Date(advance_info.initial_hour));
+
+    console.log('advance lasts: ' + initial_time.diff(final_time, 'hours') + ' hours')
+    first_moment.set('hour', 8);
+    first_moment.set('minute', 0);
+    first_moment.set('second', 0);
+    second_moment.set('hour', 18);
+    second_moment.set('minute', 0);
+    second_moment.set('second', 0);
+    if(( initial_time > final_time )
+     || (initial_time.diff(final_time, 'hours') < 8 && ( initial_time < first_limit || final_time > second_limit))) {
       res.send({warning: 'reversedTimes'});
     } else {
       this.validateAndCreateAdvance(advance_info, res);
