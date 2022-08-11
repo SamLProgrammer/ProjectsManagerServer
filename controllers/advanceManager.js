@@ -32,10 +32,10 @@ class AdvancesManager {
       second_limit.set('minute', 0);
       second_limit.set('second', 0);
       if ((initial_time > final_time)
-        || (final_time.diff(initial_time, 'hours') < 8 && (initial_time < first_limit || final_time > second_limit))) {
+        || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time < first_limit || final_time > second_limit))) {
           console.log('camino 1');
         res.send({ time_off: 'reversedTimes' });
-      } else if (final_time.diff(initial_time, 'hours') > 8 && initial_time > first_limit) {
+      } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
         console.log('camino 2');
         const activity_assignment = await this.dynamicQuery("SELECT * from activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
         this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
