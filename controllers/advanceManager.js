@@ -28,7 +28,7 @@ class AdvancesManager {
     second_limit.set('second', 0);
     if(( initial_time > final_time )
      || (initial_time.diff(final_time, 'hours') < 8 && ( initial_time < first_limit || final_time > second_limit))) {
-      res.send({warning: 'reversedTimes'});
+      res.send({time_off: 'reversedTimes'});
     } else {
       this.validateAndCreateAdvance(advance_info, res);
     }
