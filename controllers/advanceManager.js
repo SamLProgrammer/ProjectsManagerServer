@@ -46,7 +46,7 @@ class AdvancesManager {
             const overlapping_advance = await this.dynamicQuery("SELECT * FROM ADVANCE WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
-            let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
+            let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
 
             let third_pointer = this.moment(new Date(advance_info.initial_hour));
             third_pointer.set('hour', 18);
