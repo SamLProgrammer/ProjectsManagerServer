@@ -18,8 +18,9 @@ class AdvancesManager {
       const activity_id = advance_info.activity_id;
       const initial_time = this.moment(new Date(advance_info.initial_hour));
       const final_time = this.moment(new Date(advance_info.final_hour));
+      const advance_comments = advance_info.comments;
 
-      const advance_minutes = final_time.diff(initial_time,'minutes');
+      let advance_minutes = final_time.diff(initial_time,'minutes');
 
       let first_limit = this.moment(new Date(advance_info.initial_hour));
       let second_limit = this.moment(new Date(advance_info.initial_hour));
@@ -53,7 +54,7 @@ class AdvancesManager {
             third_pointer.set('second', 0);
             let times_list = [];
 
-            while (current_date <= this.moment(new Date(activity_assignment[0].Final_Time))) {
+            while (current_date <= this.moment(new Date(activity_assignment[0].Final_Time)) && advance_minutes > 0) {
               let day_advances = [];
               result.forEach(element => {
                 if (this.moment(new Date(element.Initial_Time)).isSame(current_date.format('YYYY-MM-DD'), 'day')) {
@@ -61,20 +62,44 @@ class AdvancesManager {
                 }
               });
               if (day_advances.length == 0) {
-                //substract times and remaining minutes on advance total time
-                times_list.push({ i_time: first_pointer.format("YYYY-MM-DD HH:mm:ss"), f_time: third_pointer.format("YYYY-MM-DD HH:mm:ss") });
+                advance_minutes -= third_pointer.diff(first_pointer, 'minutes');
+                if(advance_minutes < 0) {
+                  third_pointer.subtract((advance_minutes*-1), 'minutes');
+                  advance_minutes = 0;
+                }
+                times_list.push({
+                   activity_assignment_id: activity_assignment[0].Activity_Assignment_Id,
+                   comments : advance_comments,
+                   initial_hour: first_pointer.format("YYYY-MM-DD HH:mm:ss"),
+                   final_hour: third_pointer.format("YYYY-MM-DD HH:mm:ss")});
               } else {
-                while (day_advances.length > 0) {
+                while (day_advances.length > 0 && advance_minutes > 0) {
                   let current_advance = day_advances.shift();
                   let second_pointer = this.moment(new Date(current_advance.Initial_Time));
                   if (second_pointer.diff(first_pointer, 'minutes') > 0) {
-                    //substract times and remaining minutes on advance total time
-                    times_list.push({ i_time: first_pointer.format("YYYY-MM-DD HH:mm:ss"), f_time: second_pointer.format("YYYY-MM-DD HH:mm:ss") });
+                    advance_minutes -= second_pointer.diff(first_pointer, 'minutes');
+                    if(advance_minutes < 0) {
+                      second_pointer.subtract((advance_minutes*-1), 'minutes');
+                      advance_minutes = 0;
+                    }
+                    times_list.push({
+                      activity_assignment_id: activity_assignment[0].Activity_Assignment_Id,
+                      comments : advance_comments,
+                      initial_hour: first_pointer.format("YYYY-MM-DD HH:mm:ss"),
+                      final_hour: second_pointer.format("YYYY-MM-DD HH:mm:ss")});
                   }
                   first_pointer = this.moment(new Date(current_advance.Final_Time));
                   if(day_advances.length == 0 && third_pointer.diff(first_pointer, 'minutes') > 0) {
-                    //substract times and remaining minutes on advance total time
-                    times_list.push({ i_time: first_pointer.format("YYYY-MM-DD HH:mm:ss"), f_time: third_pointer.format("YYYY-MM-DD HH:mm:ss") });
+                    advance_minutes -= third_pointer.diff(first_pointer, 'minutes');
+                    if(advance_minutes < 0) {
+                      third_pointer.subtract((advance_minutes*-1), 'minutes');
+                      advance_minutes = 0;
+                    }
+                    times_list.push({
+                      activity_assignment_id: activity_assignment[0].Activity_Assignment_Id,
+                      comments : advance_comments,
+                      initial_hour: first_pointer.format("YYYY-MM-DD HH:mm:ss"),
+                      final_hour: third_pointer.format("YYYY-MM-DD HH:mm:ss")});
                   }
                 }
               }
@@ -88,7 +113,18 @@ class AdvancesManager {
               third_pointer.set('minute', 0);
               third_pointer.set('second', 0);
             }
-            console.log(times_list);
+            //activity_assignment
+            let insertion_query_1 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) ";
+            let insertion_query_2 = "VALUES (";
+            while(times_list.length > 0) {
+              const current_advance = times_list.shift();
+              if(times_list.length > 0) {
+                insertion_query_2 += current_advance.activity_assignment_id + ", '" + current_advance.comments + "', '" + current_advance.initial_hour + "', '" + current_advance.final_hour + "'), (";
+              } else {
+                insertion_query_2 += current_advance.activity_assignment_id + ", '" + current_advance.comments + "', '" + current_advance.initial_hour + "', '" + current_advance.final_hour + "')";
+              }
+            }
+            await this.dynamicQuery(insertion_query_1 + insertion_query_2);
             res.send(times_list);
           }).catch((err) => console.log(err));
       } else {
