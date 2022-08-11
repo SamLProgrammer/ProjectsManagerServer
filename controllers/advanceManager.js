@@ -20,12 +20,12 @@ class AdvancesManager {
     let second_limit = this.moment(new Date(advance_info.initial_hour));
 
     console.log('advance lasts: ' + initial_time.diff(final_time, 'hours') + ' hours')
-    first_moment.set('hour', 8);
-    first_moment.set('minute', 0);
-    first_moment.set('second', 0);
-    second_moment.set('hour', 18);
-    second_moment.set('minute', 0);
-    second_moment.set('second', 0);
+    first_limit.set('hour', 8);
+    first_limit.set('minute', 0);
+    first_limit.set('second', 0);
+    second_limit.set('hour', 18);
+    second_limit.set('minute', 0);
+    second_limit.set('second', 0);
     if(( initial_time > final_time )
      || (initial_time.diff(final_time, 'hours') < 8 && ( initial_time < first_limit || final_time > second_limit))) {
       res.send({warning: 'reversedTimes'});
