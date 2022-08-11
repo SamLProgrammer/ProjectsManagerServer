@@ -41,7 +41,9 @@ class AdvancesManager {
         const activity_assignment = await this.dynamicQuery("SELECT * from activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
         this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
           async (result) => {
-
+            console.log("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'");
+            console.log('resultado:')
+            console.log(result);
             result.sort((a, b) => { return this.moment(new Date(a.Initial_Time)) - this.moment(new Date(b.Initial_Time)) });
             const overlapping_advance = await this.dynamicQuery("SELECT * FROM ADVANCE WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
