@@ -25,25 +25,20 @@ class AdvancesManager {
       let first_limit = this.moment(new Date(advance_info.initial_hour));
       let second_limit = this.moment(new Date(advance_info.initial_hour));
 
-      console.log('advance lasts: ' + final_time.diff(initial_time, 'hours') + ' hours')
-      console.log('advance lasts: ' + advance_minutes + ' minutes')
       first_limit.set('hour', 8);
       first_limit.set('minute', 0);
       first_limit.set('second', 0);
-      second_limit.set('hour', 18);
+      second_limit.set('hour', 16);
       second_limit.set('minute', 0);
       second_limit.set('second', 0);
       if ((initial_time > final_time)
         || (final_time.diff(initial_time, 'hours') < 8 && (initial_time < first_limit || final_time > second_limit))) {
-        console.log('entre al que no era 1');
         res.send({ time_off: 'reversedTimes' });
       } else if (final_time.diff(initial_time, 'hours') > 8 && initial_time > first_limit) {
         const activity_assignment = await this.dynamicQuery("SELECT * from activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
         this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
           async (result) => {
-            console.log("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'");
-            console.log('resultado:')
-            console.log(result);
+
             result.sort((a, b) => { return this.moment(new Date(a.Initial_Time)) - this.moment(new Date(b.Initial_Time)) });
             const overlapping_advance = await this.dynamicQuery("SELECT * FROM ADVANCE WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
@@ -51,12 +46,13 @@ class AdvancesManager {
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
 
             let third_pointer = this.moment(new Date(advance_info.initial_hour));
-            third_pointer.set('hour', 18);
+            third_pointer.set('hour', 16);
             third_pointer.set('minute', 0);
             third_pointer.set('second', 0);
             let times_list = [];
-
+            console.log('ADVANCE MINUTES: '+ advance_minutes);
             while (current_date <= this.moment(new Date(activity_assignment[0].Final_Time)) && advance_minutes > 0) {
+              console.log(current_date);
               let day_advances = [];
               result.forEach(element => {
                 if (this.moment(new Date(element.Initial_Time)).isSame(current_date.format('YYYY-MM-DD'), 'day')) {
@@ -105,17 +101,19 @@ class AdvancesManager {
                   }
                 }
               }
-              console.log(current_date.add(1, 'days'));
+              current_date.add(1,'days');
               first_pointer = this.moment(current_date);
               third_pointer = this.moment(current_date);
               first_pointer.set('hour', 8);
               first_pointer.set('minute', 0);
               first_pointer.set('second', 0);
-              third_pointer.set('hour', 18);
+              third_pointer.set('hour', 16);
               third_pointer.set('minute', 0);
               third_pointer.set('second', 0);
             }
-            //activity_assignment
+            if(advance_minutes > 0) {
+              res.send({time_out_of_bounds : true});
+            } else {
             let insertion_query_1 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) ";
             let insertion_query_2 = "VALUES (";
             while(times_list.length > 0) {
@@ -128,9 +126,9 @@ class AdvancesManager {
             }
             await this.dynamicQuery(insertion_query_1 + insertion_query_2);
             res.send(times_list);
+          }
           }).catch((err) => console.log(err));
       } else {
-        console.log('entre al que no era 2');
         this.validateAndCreateAdvance(advance_info, res);
       }
     } catch (err) {
