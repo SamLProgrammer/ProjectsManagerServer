@@ -13,7 +13,7 @@ class AdvancesManager {
   }
 
   firstAdvanceValidation(advance_info, res) {
-    if(this.moment(new Date(advance_info.Initial_Time)) > this.moment(new Date(advance_info.Final_Time))) {
+    if(this.moment(new Date(advance_info.initial_hour)) > this.moment(new Date(advance_info.final_hour))) {
       res.send({warning: true});
     } else {
       this.validateAndCreateAdvance(advance_info, res);
