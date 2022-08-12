@@ -6,7 +6,7 @@ class ActivitiesManager {
   }
 
   getActivityByID(activity_id, res) {
-    this.db_connection.query("SELECT * FROM activity WHERE Activity_Id = " + activity_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM activity WHERE Activity_Id = " + activity_id, (err, result, fields) => {
       if (err) { 
         res.send(err);
       } else {
@@ -90,7 +90,7 @@ class ActivitiesManager {
     }
     const insertion_query = insertion_query_1 + insertion_query_2;
     console.log(insertion_query)
-    this.db_connection.query(insertion_query, function (err, result, fields) {
+    this.db_connection.query(insertion_query, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -102,7 +102,7 @@ class ActivitiesManager {
   deleteActivity(act_info, res) { // validaciones
     const activity_id = act_info.activity_id;
     const insertion_query = "DELETE FROM activity WHERE Activity_Id = " + activity_id;
-    this.db_connection.query(insertion_query, function (err, result, fields) {
+    this.db_connection.query(insertion_query, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -121,7 +121,7 @@ class ActivitiesManager {
 
     const insertion_query = "INSERT INTO activity (Project_Id, Activity_Name, Estimated_Hours, Priority_Id, Status_Id) VALUES (" + project_Id + ", '" + activity_name + "', " + estimated_hours + ", '" + priority + "', '" + status + "')";
     console.log(insertion_query);
-    this.db_connection.query(insertion_query, function (err, result, fields) {
+    this.db_connection.query(insertion_query, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {

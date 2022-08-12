@@ -48,7 +48,7 @@ class UsersManager {
   }
 
   login(body, res) {  // validaciones
-    this.db_connection.query("SELECT * FROM user WHERE Login_User = '" + body.login_user + "' AND User_Password = '" + body.user_password + "'", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM user WHERE Login_User = '" + body.login_user + "' AND User_Password = '" + body.user_password + "'", (err, result, fields) => {
       if (err) {
         res.status(500).send(err);
       } else {
@@ -67,7 +67,7 @@ class UsersManager {
   }
 
   getAllUsers(res) {  // validaciones
-    this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1 AND Boss_Id IS NOT NULL", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM user WHERE Status_Id = 1 AND Boss_Id IS NOT NULL", (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {
@@ -77,7 +77,7 @@ class UsersManager {
   }
 
   desactivateUser(user_id, res){  // validaciones
-    this.db_connection.query("UPDATE user SET Status_Id = 0 WHERE User_Id = " + user_id, function (err, result, fields) {
+    this.db_connection.query("UPDATE user SET Status_Id = 0 WHERE User_Id = " + user_id, (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {

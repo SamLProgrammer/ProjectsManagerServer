@@ -16,7 +16,7 @@ class ProjectsManager {
     //aquí FALLARÁ
     const query_text = "UPDATE project SET Project_Name = '" + project_name + "', Initial_Date = '" + project_initial_date + "', Final_Date = '" + project_final_date + "', Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
 
-    this.db_connection.query(query_text, function (err, result, fields) {
+    this.db_connection.query(query_text, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -27,7 +27,7 @@ class ProjectsManager {
   }
 
   disableProject(body, res) { // validaciones
-    this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, function (err, result, fields) {
+    this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -38,7 +38,7 @@ class ProjectsManager {
 
   getProjectByID(project_info, res) {
 
-    this.db_connection.query("SELECT * FROM project WHERE Project_Id = " + project_info.project_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM project WHERE Project_Id = " + project_info.project_id, (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {
@@ -48,7 +48,7 @@ class ProjectsManager {
   }
 
   getAllProjects(res) { // validaciones
-    this.db_connection.query("SELECT * FROM project WHERE Status_Id != 'A' ", function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM project WHERE Status_Id != 'A' ", (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {
@@ -74,7 +74,7 @@ class ProjectsManager {
       
     //Insertion in DB
       const insertion_query = "INSERT INTO project ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', '" + initial_date + "', '" + final_date + "', '" + project_status + "')";
-      this.db_connection.query(insertion_query, function (err, result, fields) {
+      this.db_connection.query(insertion_query, (err, result, fields) => {
         if (err) {
           res.send(err);
         res.send('mal'); 

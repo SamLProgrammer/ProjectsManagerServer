@@ -6,7 +6,7 @@ class AdvancesManager {
   }
 
   getAdvance(advance_info, res) {
-    this.db_connection.query("SELECT * FROM advance WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM advance WHERE Advance_Id = " + advance_info.advance_id, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -236,7 +236,7 @@ class AdvancesManager {
                               res.send(err5);
                             } else {
                               const insertion_query_7 = "INSERT INTO advance (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
-                              this.db_connection.query(insertion_query_7, function (err6, result6, fields6) {
+                              this.db_connection.query(insertion_query_7, (err6, result6, fields6) => {
                                 if (err6) {
                                   res.send(err6);
                                 } else {
@@ -406,7 +406,7 @@ class AdvancesManager {
 
   getAdvancesByUser(advance_info, res) {
     const query_string = "SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + advance_info.user_id + ")";
-    this.db_connection.query(query_string, function (err, result, fields) {
+    this.db_connection.query(query_string, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -416,7 +416,7 @@ class AdvancesManager {
   }
 
   getAdvanceByActivity(advance_info, res) {
-    this.db_connection.query("SELECT * FROM advance WHERE Activity_Id = " + advance_info.activity_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM advance WHERE Activity_Id = " + advance_info.activity_id, (err, result, fields) => {
       if (err) {
         res.send(err);
       } else {
@@ -437,7 +437,7 @@ class AdvancesManager {
         res.send(err1);
       } else {
         const insertion_query_2 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
-        this.db_connection.query(insertion_query_2, function (err, result, fields) {
+        this.db_connection.query(insertion_query_2, (err, result, fields) => {
           if (err) {
             res.send(err);
           } else {
