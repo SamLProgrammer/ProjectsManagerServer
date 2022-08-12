@@ -12,7 +12,7 @@ let advancesManager;
 let mysql_connection;
 
 const initController = () => {
-    connectToBD(initComponents);
+    //connectToBD(initComponents);
 };
 
 const initComponents = (connection) => {
