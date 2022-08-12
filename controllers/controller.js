@@ -34,6 +34,12 @@ const connectToBD = (componentsInitializer) => {
         password: "H6sPnfM1YdjlvRRutez7",
         database: "bd5ouosomtaqwqoole88",
         timezone : 'local'
+        // host: "localhost",
+        // user: "root",
+        // port: 3306,
+        // password: "leliberteHal0",
+        // database: "projectsmanager",
+        // timezone : 'local'
     });
 
     mysql_connection.connect(function (err) { 

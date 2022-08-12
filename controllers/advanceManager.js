@@ -6,7 +6,7 @@ class AdvancesManager {
   }
 
   getAdvance(advance_info, res) {
-    this.db_connection.query("SELECT * FROM ADVANCE WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM advance WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
       if (err) throw err
       res.send(result[0]);
     });
@@ -37,12 +37,12 @@ class AdvancesManager {
         res.send({ time_off: 'reversedTimes' });
       } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
         console.log('camino 2');
-        const activity_assignment = await this.dynamicQuery("SELECT * from activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
-        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
+        const activity_assignment = await this.dynamicQuery("SELECT * FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
+        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM activity_assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
           async (result) => {
 
             result.sort((a, b) => { return this.moment(new Date(a.Initial_Time)) - this.moment(new Date(b.Initial_Time)) });
-            const overlapping_advance = await this.dynamicQuery("SELECT * FROM ADVANCE WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
+            const overlapping_advance = await this.dynamicQuery("SELECT * FROM advance WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
@@ -159,7 +159,7 @@ class AdvancesManager {
     const final_time = advance_info.final_hour;
 
     let flag = false;
-    const insertion_query_0 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+    const insertion_query_0 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
     this.db_connection.query(insertion_query_0, (err0, result0, field0) => {
       if (err0) {
         console.log(err0);
@@ -183,17 +183,17 @@ class AdvancesManager {
           res.send({ overlapped: true });
         }
         else {
-          const insertion_query_1 = "SELECT * FROM Activity_Assignment WHERE Activity_Id = " + activity_id + " AND User_Id = " + user_id;
+          const insertion_query_1 = "SELECT * FROM activity_assignment WHERE Activity_Id = " + activity_id + " AND User_Id = " + user_id;
           this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
             if (err1) {
               console.log(err1);
             } else {
-              const insertion_query_2 = "SELECT * FROM ACTIVITY WHERE Activity_Id IN (SELECT Activity_Id FROM Activity_Assignment WHERE Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id + ")";
+              const insertion_query_2 = "SELECT * FROM activity WHERE Activity_Id IN (SELECT Activity_Id FROM activity_assignment WHERE Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id + ")";
               this.db_connection.query(insertion_query_2, (err2, result2, fields2) => {
                 if (err2) {
                   console.log(err2)
                 } else {
-                  const insertion_query_3 = "SELECT * FROM ADVANCE WHERE Initial_Time > '" + this.moment(new Date(result1[0].Initial_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(result1[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id;
+                  const insertion_query_3 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(result1[0].Initial_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(result1[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id;
                   this.db_connection.query(insertion_query_3, (err3, result3, fields3) => {
                     if (err3) {
                       console.log(err3)
@@ -214,7 +214,7 @@ class AdvancesManager {
                       const working_hours = (c - weekends_amount) * 8;
 
                       const date = (new Date()).toISOString();
-                      const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+                      const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
                       this.db_connection.query(insertion_query_4, (err4, result4, fields4) => {
                         if (err4) {
                           console.log(err4);
@@ -227,7 +227,7 @@ class AdvancesManager {
                           const future_free_time = working_hours - future_working_hours;
                           const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
                           const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
-                          const insertion_query_6 = "SELECT Activity_Assignment_id FROM Activity_Assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
+                          const insertion_query_6 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
                           this.db_connection.query(insertion_query_6, (err5, result5, fields5) => {
                             if (err5) {
                               throw err5
@@ -238,7 +238,7 @@ class AdvancesManager {
                                   console.log(err6);
                                 } else {
                                   if ((remaining_hours_for_activity > future_free_time)) {
-                                    this.db_connection.query("DELETE FROM ADVANCE WHERE Advance_Id = " + result6.insertId, (err12, result12, fields12) => {
+                                    this.db_connection.query("DELETE FROM advance WHERE Advance_Id = " + result6.insertId, (err12, result12, fields12) => {
                                       if (err12) {
                                         throw err12;
                                       }
@@ -267,14 +267,14 @@ class AdvancesManager {
     const advance_comments = advance_info.comments;
     const final_time = advance_info.final_hour;
     const initial_time = advance_info.initial_hour;
-    const insertion_query_0 = "SELECT Activity_Id, User_Id FROM Activity_Assignment WHERE Activity_Assignment_Id IN ( SELECT Activity_Assignment_Id FROM ADVANCE WHERE Advance_Id = " + advance_id + ")";
+    const insertion_query_0 = "SELECT Activity_Id, User_Id FROM activity_assignment WHERE Activity_Assignment_Id IN ( SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id + ")";
     this.db_connection.query(insertion_query_0, (err0, result0, fields0) => {
       if (err0) {
         console.log(err0);
       } else {
         const user_id = result0[0].User_Id;
         let flag = false;
-        const insertion_query_01 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ") AND Advance_Id != " + advance_id;
+        const insertion_query_01 = "SELECT * FROM advance WHERE Activity_Assignment_Id in (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ") AND Advance_Id != " + advance_id;
         this.db_connection.query(insertion_query_01, (err01, result01, field01) => {
           if (err01) {
             console.log(err01);
@@ -298,17 +298,17 @@ class AdvancesManager {
               res.send({ overlapped: true });
             }
             else {
-              const insertion_query_1 = "SELECT * FROM Activity_Assignment WHERE Activity_Id = " + result0[0].Activity_Id + " AND User_Id = " + result0[0].User_Id;
+              const insertion_query_1 = "SELECT * FROM activity_assignment WHERE Activity_Id = " + result0[0].Activity_Id + " AND User_Id = " + result0[0].User_Id;
               this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
                 if (err1) {
                   console.log(err1);
                 } else {
-                  const insertion_query_2 = "SELECT * FROM ACTIVITY WHERE Activity_Id IN (SELECT Activity_Id FROM Activity_Assignment WHERE Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id + ")";
+                  const insertion_query_2 = "SELECT * FROM activity WHERE Activity_Id IN (SELECT Activity_Id FROM activity_assignment WHERE Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id + ")";
                   this.db_connection.query(insertion_query_2, (err2, result2, fields2) => {
                     if (err2) {
                       console.log(err2)
                     } else {
-                      const insertion_query_3 = "SELECT * FROM ADVANCE WHERE Initial_Time > '" + this.moment(new Date(result1[0].Initial_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(result1[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id;
+                      const insertion_query_3 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(result1[0].Initial_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(result1[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id = " + result1[0].Activity_Assignment_Id;
                       this.db_connection.query(insertion_query_3, (err3, result3, fields3) => {
                         if (err3) {
                           console.log(err3)
@@ -329,7 +329,7 @@ class AdvancesManager {
                           const working_hours = (c - weekends_amount) * 8;
 
                           const date = (new Date()).toISOString();
-                          const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + result0[0].User_Id + ")";
+                          const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + result0[0].User_Id + ")";
                           this.db_connection.query(insertion_query_4, (err4, result4, fields4) => {
                             if (err4) {
                               console.log(err4);
@@ -402,7 +402,7 @@ class AdvancesManager {
   }
 
   getAdvancesByUser(advance_info, res) {
-    const query_string = "SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + advance_info.user_id + ")";
+    const query_string = "SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + advance_info.user_id + ")";
     this.db_connection.query(query_string, function (err, result, fields) {
       if (err) throw err
       res.send(result);
@@ -410,7 +410,7 @@ class AdvancesManager {
   }
 
   getAdvanceByActivity(advance_info, res) {
-    this.db_connection.query("SELECT * FROM ADVANCE WHERE Activity_Id = " + advance_info.activity_id, function (err, result, fields) {
+    this.db_connection.query("SELECT * FROM advance WHERE Activity_Id = " + advance_info.activity_id, function (err, result, fields) {
       if (err) throw err
       res.send(result);
     });
@@ -422,7 +422,7 @@ class AdvancesManager {
     const advance_comments = advance_info.comments;
     const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
     const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
-    const insertion_query_1 = "SELECT Activity_Assignment_id FROM Activity_Assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
+    const insertion_query_1 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
     this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
       if (err1) {
         throw err1

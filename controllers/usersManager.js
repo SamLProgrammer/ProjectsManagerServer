@@ -10,8 +10,8 @@ class UsersManager {
     const date = new Date();
     const final_time = (date < Date.parse(body.final_time)) ? date.toISOString() : body.final_time ;
     const user_id = body.user_id;
-    const query_string = "SELECT * FROM advance WHERE Initial_Time > '" + initial_time + "' AND Final_Time < '" + final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
-    const future_query_string = "SELECT * FROM advance WHERE Initial_Time > '" + final_time + "' AND Final_Time < '" + body.final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM Activity_Assignment WHERE User_Id = " + user_id + ")";
+    const query_string = "SELECT * FROM advance WHERE Initial_Time > '" + initial_time + "' AND Final_Time < '" + final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
+    const future_query_string = "SELECT * FROM advance WHERE Initial_Time > '" + final_time + "' AND Final_Time < '" + body.final_time + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
     
     //
     const a = this.moment(initial_time).subtract(1, 'days');
@@ -167,7 +167,7 @@ class UsersManager {
       this.db_connection.query(document_insertion_query, (err0, result0, fields0) => {
         if (err0) { throw err0 }
         else {
-          const user_insertion_query = "INSERT INTO USER (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id" + boss_id_index + "VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", '" + birth_date + "', " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "', " + user_info.user_status + boss_id;
+          const user_insertion_query = "INSERT INTO user (User_Name, User_Last_Name, Document_Id, Birth_Date, Salary, Weekly_Hours, User_Email, Phone_Number, User_Password, Login_User, Status_Id" + boss_id_index + "VALUES ('" + user_info.user_name + "', '" + user_info.user_last_name + "', " + result0.insertId + ", '" + birth_date + "', " + user_info.salary + ", " + weekly_hours_to_insert + ", '" + user_info.user_email + "', '" + user_info.phone_number + "', '" + user_info.user_password + "', '" + login_user + "', " + user_info.user_status + boss_id;
           this.db_connection.query(user_insertion_query, (err1, result1, fields1) => {
             if (err1) throw err1
             res.send({ respo: invalid_field })
