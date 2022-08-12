@@ -7,8 +7,11 @@ class ActivitiesManager {
 
   getActivityByID(activity_id, res) {
     this.db_connection.query("SELECT * FROM activity WHERE Activity_Id = " + activity_id, function (err, result, fields) {
-      if (err) throw err
-      res.send(result[0]);
+      if (err) { 
+        res.send(err);
+      } else {
+        res.send(result[0]);
+      }
     });
   }
 
@@ -23,7 +26,7 @@ class ActivitiesManager {
     const query_text = "UPDATE activity SET Activity_Name = '" + activity_name + "', Activity_Description = '" + activity_description + "', Estimated_Hours = " + estimated_hours + ", Priority_Id = '" + priority_id + "', Status_Id = '" + status_id + "' WHERE Activity_Id = " + activity_id;
     this.db_connection.query(query_text, (err, result, fields) => {
       if (err) {
-        console.log(err);
+        res.send(err);
       } else {
         res.send(result[0]);
       }
@@ -34,7 +37,7 @@ class ActivitiesManager {
     this.db_connection.query(
       "SELECT * FROM activity WHERE Activity_Id IN (SELECT Activity_Id FROM activity_assignment WHERE User_Id = " + req.user_id + ")", (err, result, fields) => {
         if (err) {
-          console.log(err);
+          res.send(err);
           res.status(500).send("mal");
         } else {
           if (result.length > 0) {
@@ -89,7 +92,7 @@ class ActivitiesManager {
     console.log(insertion_query)
     this.db_connection.query(insertion_query, function (err, result, fields) {
       if (err) {
-        throw err;
+        res.send(err);
       } else {
         res.send('Activity Successfully Assigned');
       }
@@ -100,8 +103,11 @@ class ActivitiesManager {
     const activity_id = act_info.activity_id;
     const insertion_query = "DELETE FROM activity WHERE Activity_Id = " + activity_id;
     this.db_connection.query(insertion_query, function (err, result, fields) {
-      if (err) throw err
-      res.send("Deleted Activity!")
+      if (err) {
+        res.send(err);
+      } else {
+        res.send("Deleted Activity!")
+      }
     });
   }
 
@@ -116,8 +122,11 @@ class ActivitiesManager {
     const insertion_query = "INSERT INTO activity (Project_Id, Activity_Name, Estimated_Hours, Priority_Id, Status_Id) VALUES (" + project_Id + ", '" + activity_name + "', " + estimated_hours + ", '" + priority + "', '" + status + "')";
     console.log(insertion_query);
     this.db_connection.query(insertion_query, function (err, result, fields) {
-      if (err) throw err
-      res.send('1 Inserted Activity!');
+      if (err) {
+        res.send(err);
+      } else {
+        res.send('1 Inserted Activity!');
+      }
     });
   }
 
@@ -129,7 +138,7 @@ class ActivitiesManager {
         } else {
             this.db_connection.query("SELECT * FROM activity WHERE Project_Id = " + req.project_id + " AND Activity_Id NOT IN (SELECT Activity_Id FROM activity_assignment)", (err0, result0, fields0) => {
               if (err0) {
-                console.log(err0);
+                res.send(err0);
               } else {
                 console.log(result.concat(result0));
                 res.status(200).send(result.concat(result0));

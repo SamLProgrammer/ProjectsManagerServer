@@ -18,7 +18,7 @@ class ProjectsManager {
 
     this.db_connection.query(query_text, function (err, result, fields) {
       if (err) {
-        console.log(err);
+        res.send(err);
       } else {
         res.send(result);
       }
@@ -29,7 +29,7 @@ class ProjectsManager {
   disableProject(body, res) { // validaciones
     this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, function (err, result, fields) {
       if (err) {
-        console.log(err);
+        res.send(err);
       } else {
         res.send(result);
       }
@@ -76,7 +76,7 @@ class ProjectsManager {
       const insertion_query = "INSERT INTO project ( Project_Name, Initial_Date, Final_Date, Status_Id) VALUES ('" + project_name + "', '" + initial_date + "', '" + final_date + "', '" + project_status + "')";
       this.db_connection.query(insertion_query, function (err, result, fields) {
         if (err) {
-          console.log(err);
+          res.send(err);
         res.send('mal'); 
         } else {
           console.log("salio bien");

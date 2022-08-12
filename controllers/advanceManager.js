@@ -7,8 +7,11 @@ class AdvancesManager {
 
   getAdvance(advance_info, res) {
     this.db_connection.query("SELECT * FROM advance WHERE Advance_Id = " + advance_info.advance_id, function (err, result, fields) {
-      if (err) throw err
-      res.send(result[0]);
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result[0]);
+      }
     });
   }
 
@@ -230,7 +233,7 @@ class AdvancesManager {
                           const insertion_query_6 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
                           this.db_connection.query(insertion_query_6, (err5, result5, fields5) => {
                             if (err5) {
-                              throw err5
+                              res.send(err5);
                             } else {
                               const insertion_query_7 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                               this.db_connection.query(insertion_query_7, function (err6, result6, fields6) {
@@ -240,7 +243,7 @@ class AdvancesManager {
                                   if ((remaining_hours_for_activity > future_free_time)) {
                                     this.db_connection.query("DELETE FROM advance WHERE Advance_Id = " + result6.insertId, (err12, result12, fields12) => {
                                       if (err12) {
-                                        throw err12;
+                                        res.send(err12);
                                       }
                                     });
                                   }
@@ -346,12 +349,12 @@ class AdvancesManager {
                                 const insertion_query_6 = "SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id;
                                 this.db_connection.query(insertion_query_6, (err5, result5, fields5) => {
                                   if (err5) {
-                                    throw err5
+                                    res.send(err5);
                                   } else {
                                     const insertion_query_7 = "REPLACE INTO ADVANCE (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                                     this.db_connection.query(insertion_query_7, (err6, result6, fields6) => {
                                       if (err6) {
-                                        throw err6
+                                        res.send(err6);
                                       } else {
                                         res.send({ warning: (remaining_hours_for_activity > future_free_time) });
                                       }
@@ -387,12 +390,12 @@ class AdvancesManager {
     const insertion_query_1 = "SELECT Activity_Assignment_Id FROM advance WHERE Advance_Id = " + advance_id;
     this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
       if (err1) {
-        throw err1
+        res.send(err1);
       } else {
         const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query, (err, result, fields) => {
           if (err) {
-            throw err
+            res.send(err);
           } else {
             res.send('Advance Successfully Updated!');
           }
@@ -404,15 +407,21 @@ class AdvancesManager {
   getAdvancesByUser(advance_info, res) {
     const query_string = "SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + advance_info.user_id + ")";
     this.db_connection.query(query_string, function (err, result, fields) {
-      if (err) throw err
+      if (err) {
+        res.send(err);
+      } else {
       res.send(result);
+      }
     });
   }
 
   getAdvanceByActivity(advance_info, res) {
     this.db_connection.query("SELECT * FROM advance WHERE Activity_Id = " + advance_info.activity_id, function (err, result, fields) {
-      if (err) throw err
+      if (err) {
+        res.send(err);
+      } else {
       res.send(result);
+      }
     });
   }
 
@@ -425,12 +434,15 @@ class AdvancesManager {
     const insertion_query_1 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
     this.db_connection.query(insertion_query_1, (err1, result1, fields1) => {
       if (err1) {
-        throw err1
+        res.send(err1);
       } else {
         const insertion_query_2 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query_2, function (err, result, fields) {
-          if (err) throw err
-          res.send('1 Advance Inserted!');
+          if (err) {
+            res.send(err);
+          } else {
+            res.send('1 Advance Inserted!');
+          }
         });
       }
     });
