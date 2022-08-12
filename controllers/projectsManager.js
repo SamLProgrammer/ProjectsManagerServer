@@ -46,7 +46,9 @@ class ProjectsManager {
       }
     });
   }
-
+  idontknowfunction() {
+    console.log(0);
+  }
   getAllProjects(res) { // validaciones
     this.db_connection.query("SELECT * FROM project WHERE Status_Id != 'A' ", (err, result, fields) => {
       if (err) {
