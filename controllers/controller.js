@@ -41,7 +41,9 @@ const connectToBD = (componentsInitializer) => {
 };
 
 const createUser = (req, res) => {
-    usersManager.insertUser(req.body, res);
+    console.log('WIIII');
+    res.send('your mom');
+    //usersManager.insertUser(req.body, res);
 };
 
 const createActivity = (req, res) => {
