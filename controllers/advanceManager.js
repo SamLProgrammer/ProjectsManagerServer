@@ -119,7 +119,7 @@ class AdvancesManager {
             if(advance_minutes > 0) {
               res.send({time_out_of_bounds : true});
             } else {
-            let insertion_query_1 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) ";
+            let insertion_query_1 = "INSERT INTO advance (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) ";
             let insertion_query_2 = "VALUES (";
             while(times_list.length > 0) {
               const current_advance = times_list.shift();
@@ -351,7 +351,7 @@ class AdvancesManager {
                                   if (err5) {
                                     res.send(err5);
                                   } else {
-                                    const insertion_query_7 = "REPLACE INTO ADVANCE (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+                                    const insertion_query_7 = "REPLACE INTO advance (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                                     this.db_connection.query(insertion_query_7, (err6, result6, fields6) => {
                                       if (err6) {
                                         res.send(err6);
@@ -392,7 +392,7 @@ class AdvancesManager {
       if (err1) {
         res.send(err1);
       } else {
-        const insertion_query = "REPLACE INTO ADVANCE (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+        const insertion_query = "REPLACE INTO advance (Advance_Id, Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + advance_id + ", " + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query, (err, result, fields) => {
           if (err) {
             res.send(err);
@@ -436,7 +436,7 @@ class AdvancesManager {
       if (err1) {
         res.send(err1);
       } else {
-        const insertion_query_2 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+        const insertion_query_2 = "INSERT INTO advance (Activity_Assignment_Id, Advance_Comments,  Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
         this.db_connection.query(insertion_query_2, (err, result, fields) => {
           if (err) {
             res.send(err);
