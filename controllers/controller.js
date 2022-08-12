@@ -12,7 +12,7 @@ let advancesManager;
 let mysql_connection;
 
 const initController = () => {
-    //connectToBD(initComponents);
+    connectToBD(initComponents);
 };
 
 const initComponents = (connection) => {
@@ -27,6 +27,7 @@ const connectToBD = (componentsInitializer) => {
         //Esto tiene que arreglarse, estamos estructurando
         host: "projectsmanager.c4hgkah1xeem.sa-east-1.rds.amazonaws.com",
         user: "root",
+        port: 3306,
         password: "leliberteHal0",
         database: "projectsmanager",
         timezone : 'local'
