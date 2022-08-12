@@ -235,7 +235,7 @@ class AdvancesManager {
                             if (err5) {
                               res.send(err5);
                             } else {
-                              const insertion_query_7 = "INSERT INTO ADVANCE (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
+                              const insertion_query_7 = "INSERT INTO advance (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                               this.db_connection.query(insertion_query_7, function (err6, result6, fields6) {
                                 if (err6) {
                                   console.log(err6);
