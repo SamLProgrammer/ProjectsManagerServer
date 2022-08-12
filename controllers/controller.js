@@ -25,7 +25,7 @@ const initComponents = (connection) => {
 const connectToBD = (componentsInitializer) => {
     mysql_connection = mysql.createConnection({
         //Esto tiene que arreglarse, estamos estructurando
-        host: "localhost",
+        host: "projectsmanager.c4hgkah1xeem.sa-east-1.rds.amazonaws.com",
         user: "root",
         password: "leliberteHal0",
         database: "projectsmanager",
