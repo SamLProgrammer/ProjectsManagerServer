@@ -37,7 +37,7 @@ class AdvancesManager {
       if ((initial_time > final_time)
         || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time < first_limit || final_time > second_limit))) {
           console.log('camino 1');
-        res.send({ time_off: 'reversedTimes' });
+        res.send({ time_off: 'reversedTimes', initial_time, final_time, first_limit, second_limit });
       } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
         console.log('camino 2');
         const activity_assignment = await this.dynamicQuery("SELECT * FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
@@ -238,7 +238,7 @@ class AdvancesManager {
                               const insertion_query_7 = "INSERT INTO advance (Activity_Assignment_Id, Advance_Comments, Initial_Time, Final_Time) VALUES (" + result1[0].Activity_Assignment_Id + ", '" + advance_comments + "', '" + initial_hour + "', '" + final_hour + "')";
                               this.db_connection.query(insertion_query_7, function (err6, result6, fields6) {
                                 if (err6) {
-                                  console.log(err6);
+                                  res.send(err6);
                                 } else {
                                   if ((remaining_hours_for_activity > future_free_time)) {
                                     this.db_connection.query("DELETE FROM advance WHERE Advance_Id = " + result6.insertId, (err12, result12, fields12) => {
