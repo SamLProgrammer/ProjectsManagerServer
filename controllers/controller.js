@@ -24,12 +24,11 @@ const initComponents = (connection) => {
 
 const connectToBD = (componentsInitializer) => {
     mysql_connection = mysql.createConnection({
-        //Esto tiene que arreglarse, estamos estructurando
-        host: "projectsmanager.c4hgkah1xeem.sa-east-1.rds.amazonaws.com",
-        user: "root",
+        host: "bd5ouosomtaqwqoole88-mysql.services.clever-cloud.com",
+        user: "u8gp3myje2rag4m0",
         port: 3306,
-        password: "leliberteHal0",
-        database: "projectsmanager",
+        password: "H6sPnfM1YdjlvRRutez7",
+        database: "bd5ouosomtaqwqoole88",
         timezone : 'local'
     });
 
@@ -41,9 +40,7 @@ const connectToBD = (componentsInitializer) => {
 };
 
 const createUser = (req, res) => {
-    console.log('WIIII');
-    res.send('your mom');
-    //usersManager.insertUser(req.body, res);
+    usersManager.insertUser(req.body, res);
 };
 
 const createActivity = (req, res) => {
