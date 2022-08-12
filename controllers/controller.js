@@ -11,6 +11,10 @@ let activitiesManager;
 let advancesManager;
 let mysql_connection;
 
+
+const test = (req, res) => {
+    res.send('dude');
+}
 const initController = () => {
     connectToBD(initComponents);
 };
@@ -157,5 +161,6 @@ module.exports = {
     getProjectByID,
     editProject,
     hoursStatsPerUser,
-    globalResponse
+    globalResponse,
+    test
 };
