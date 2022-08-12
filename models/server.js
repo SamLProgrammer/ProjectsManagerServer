@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { initController } = require('../controllers/controller')
-const PORT = 4000;
+const PORT = process.env.PORT || 1337;
 
 class Server {
     constructor() {

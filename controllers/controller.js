@@ -129,6 +129,10 @@ const hoursStatsPerUser = (req, res) => {
     usersManager.statsPerUser(req.body, res);
 }
 
+const globalResponse  = (req, res) => {
+    res.send('Ola ke me ase');
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -152,5 +156,6 @@ module.exports = {
     getAdvancesByActivity,
     getProjectByID,
     editProject,
-    hoursStatsPerUser
+    hoursStatsPerUser,
+    globalResponse
 };
