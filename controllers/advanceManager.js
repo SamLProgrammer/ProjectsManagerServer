@@ -8,9 +8,9 @@ class AdvancesManager {
   getAdvance(advance_info, res) {
     this.db_connection.query("SELECT * FROM advance WHERE Advance_Id = " + advance_info.advance_id, (err, result, fields) => {
       if (err) {
-        res.send({err, advance_info});
+        res.send(err);
       } else {
-        res.send({answer : result[0], advance_info});
+        res.send(result[0]);
       }
     });
   }
