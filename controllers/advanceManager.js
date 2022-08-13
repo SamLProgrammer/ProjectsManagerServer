@@ -38,7 +38,7 @@ class AdvancesManager {
       if ((initial_time > final_time)
         || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
           console.log('camino 1');
-        res.send({ time_off: 'reversedTimes', initial_time, final_time, first_limit, second_limit });
+        res.send({ time_off: 'reversedTimes', initial_time: initial_time.format("YYYY-MM-DD HH:mm:ss"), final_time: final_time.format("YYYY-MM-DD HH:mm:ss"), first_limit: first_limit.format("YYYY-MM-DD HH:mm:ss"), second_limit: second_limit.format("YYYY-MM-DD HH:mm:ss") });
       } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
         console.log('camino 2');
         const activity_assignment = await this.dynamicQuery("SELECT * FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
