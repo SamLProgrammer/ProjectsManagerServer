@@ -6,7 +6,6 @@ class ProjectsManager {
   }
 
   editProject(project_info, res) {
-    console.log(project_info);
     const project_id = project_info.Project_Id;
     const project_initial_date = project_info.Initial_Date;
     const project_final_date = project_info.Final_Date;
@@ -18,6 +17,7 @@ class ProjectsManager {
 
     this.db_connection.query(query_text, (err, result, fields) => {
       if (err) {
+        console.log(err);
         res.send(err);
       } else {
         res.send(result);
