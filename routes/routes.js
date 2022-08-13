@@ -38,3 +38,11 @@ router.get('/getUsers', getAllUsers);
 router.get('/getProjects', getAllProjects);
 
 module.exports = router;
+
+/*{
+"activity_id": "34",
+"comments": "mega plus",
+"final_hour": "Wed Aug 17 2022 15:00:49 GMT-0500",
+"initial_hour": "Mon Aug 15 2022 14:00:49 GMT-0500",
+"user_id": "14"
+}*/

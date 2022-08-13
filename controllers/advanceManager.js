@@ -24,13 +24,9 @@ class AdvancesManager {
       const advance_comments = advance_info.comments;
 
       let advance_minutes = final_time.diff(initial_time,'minutes');
+
       let first_limit = this.moment(new Date(advance_info.initial_hour));
       let second_limit = this.moment(new Date(advance_info.initial_hour));
-
-      let aux_initial_time = this.moment(initial_time);
-      let aux_final_time = this.moment(final_time);
-      aux_initial_time.subtract(5,'hours');
-      aux_final_time.subtract(5,'hours');
 
       first_limit.set('hour', 8);
       first_limit.set('minute', 0);
@@ -38,22 +34,22 @@ class AdvancesManager {
       second_limit.set('hour', 16);
       second_limit.set('minute', 0);
       second_limit.set('second', 0);
-      console.log(initial_time.format("YYYY-MM-DD HH:mm:ss") + ' ' + first_limit.format("YYYY-MM-DD HH:mm:ss"))
-      if ((aux_initial_time > aux_final_time)
-        || (aux_final_time.diff(aux_initial_time, 'minutes') < 480 && (aux_initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || aux_final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
+      if ((initial_time > final_time)
+        || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
           console.log('camino 1');
-        res.send({ time_off: 'reversedTimes', initial_time: initial_time.format("YYYY-MM-DD HH:mm:ss"), final_time: final_time.format("YYYY-MM-DD HH:mm:ss"), first_limit: first_limit.format("YYYY-MM-DD HH:mm:ss"), second_limit: second_limit.format("YYYY-MM-DD HH:mm:ss") });
-      } else if (aux_final_time.diff(aux_initial_time, 'minutes') > 480 && aux_initial_time > first_limit) {
+        res.send({ time_off: 'reversedTimes', initial_time, final_time, first_limit, second_limit });
+      } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
         console.log('camino 2');
         const activity_assignment = await this.dynamicQuery("SELECT * FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
-        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM activity_assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
+        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM activity_assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
           async (result) => {
 
             result.sort((a, b) => { return this.moment(new Date(a.Initial_Time)) - this.moment(new Date(b.Initial_Time)) });
-            const overlapping_advance = await this.dynamicQuery("SELECT * FROM advance WHERE Initial_Time <= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
+            const overlapping_advance = await this.dynamicQuery("SELECT * FROM advance WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
+
             let third_pointer = this.moment(new Date(advance_info.initial_hour));
             third_pointer.set('hour', 16);
             third_pointer.set('minute', 0);
@@ -61,6 +57,7 @@ class AdvancesManager {
             let times_list = [];
             console.log('ADVANCE MINUTES: '+ advance_minutes);
             while (current_date <= this.moment(new Date(activity_assignment[0].Final_Time)) && advance_minutes > 0) {
+              console.log(current_date);
               let day_advances = [];
               result.forEach(element => {
                 if (this.moment(new Date(element.Initial_Time)).isSame(current_date.format('YYYY-MM-DD'), 'day')) {
@@ -119,6 +116,7 @@ class AdvancesManager {
               third_pointer.set('minute', 0);
               third_pointer.set('second', 0);
             }
+            let response_list = [];
             if(advance_minutes > 0) {
               res.send({time_out_of_bounds : true});
             } else {
@@ -126,21 +124,15 @@ class AdvancesManager {
             let insertion_query_2 = "VALUES (";
             while(times_list.length > 0) {
               const current_advance = times_list.shift();
+              response_list.push(current_advance);
               if(times_list.length > 0) {
                 insertion_query_2 += current_advance.activity_assignment_id + ", '" + current_advance.comments + "', '" + current_advance.initial_hour + "', '" + current_advance.final_hour + "'), (";
               } else {
                 insertion_query_2 += current_advance.activity_assignment_id + ", '" + current_advance.comments + "', '" + current_advance.initial_hour + "', '" + current_advance.final_hour + "')";
               }
             }
-            const result_shit = await this.dynamicQuery(insertion_query_1 + insertion_query_2);
-            let list = [];
-            let idd = result_shit.insertId;
-            for(let i = 0; i < result_shit.affectedRows; i++) {
-              const x = await this.dynamicQuery("SELECT * FROM advance WHERE Advance_Id = " + idd);
-              list.push(x);
-              idd+=10;
-            }
-            res.send({Xd: 3 , list});
+            await this.dynamicQuery(insertion_query_1 + insertion_query_2);
+            res.send(response_list);
           }
           }).catch((err) => res.send(err));
       } else {
@@ -224,7 +216,7 @@ class AdvancesManager {
                       const initial_weeknd = (6 - a.day() > c) ? 0 : 1;
                       let weekends_amount = (parseInt((c - (6 - a.day())) / 7) + initial_weeknd) * 2;
                       weekends_amount = (b.day() == 5) ? weekends_amount - 1 : weekends_amount;
-                      const working_hours = (c) * 8;
+                      const working_hours = (c - weekends_amount) * 8;
 
                       const date = (new Date()).toISOString();
                       const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
@@ -238,7 +230,6 @@ class AdvancesManager {
                             future_working_hours += diff / 3600000;
                           });
                           const future_free_time = working_hours - future_working_hours;
-                          console.log('working_h:: ' + working_hours + ' future_work' + future_working_hours);
                           const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
                           const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
                           const insertion_query_6 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
@@ -258,7 +249,7 @@ class AdvancesManager {
                                       }
                                     });
                                   }
-                                  res.send({ warning: (remaining_hours_for_activity > future_free_time), remaining_hours_for_activity, future_free_time });
+                                  res.send({ warning: (remaining_hours_for_activity > future_free_time) });
                                 }
                               });
                             }
