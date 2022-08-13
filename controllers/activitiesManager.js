@@ -6,12 +6,15 @@ class ActivitiesManager {
   }
 
   getActivityByID(activity_id, res) {
-    this.db_connection.query("SELECT * FROM activity WHERE Activity_Id = " + activity_id, (err, result, fields) => {
-      if (err) { 
-        res.send(err);
-      } else {
-        res.send(result[0]);
-      }
+    return new Promise((resolve, reject) => {
+      this.db_connection.query("SELECT * FROM activity WHERE Activity_Id = " + activity_id, (err, result, fields) => {
+        if (err) { 
+          return reject(err);
+        } else {
+          resolve(result[0]);
+        }
+      });
+
     });
   }
 

@@ -12,6 +12,7 @@ let advancesManager;
 let mysql_connection;
 
 let stored_project;
+let stored_activity;
 
 
 const test = (req, res) => {
@@ -117,8 +118,8 @@ const getAdvanceToEdit = (req, res) => {
     advancesManager.getAdvance(req.body, res);
 }
 
-const getActivityByID = (req, res) => {
-    activitiesManager.getActivityByID(req.body.activity_id, res);
+const getActivityByID = async (req, res) => {
+    this.stored_activity = await activitiesManager.getActivityByID(req.body.activity_id, res);
 }
 
 const getAdvancesByActivity = (req, res) => {
@@ -149,6 +150,10 @@ const getStoredProject = (req,res) => {
     res.send(this.stored_project);
 }
 
+const getStoredActivity = (req,res) => {
+    res.send(this.stored_activity);
+}
+
 module.exports = {
     createUser,
     createProject,
@@ -175,5 +180,6 @@ module.exports = {
     hoursStatsPerUser,
     globalResponse,
     test,
-    getStoredProject
+    getStoredProject,
+    getStoredActivity
 };
