@@ -55,14 +55,12 @@ class AdvancesManager {
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
             let third_pointer = this.moment(new Date(advance_info.initial_hour));
-            first_pointer.add(5,'hours');
             third_pointer.set('hour', 16);
             third_pointer.set('minute', 0);
             third_pointer.set('second', 0);
             let times_list = [];
             console.log('ADVANCE MINUTES: '+ advance_minutes);
             while (current_date <= this.moment(new Date(activity_assignment[0].Final_Time)) && advance_minutes > 0) {
-              console.log(current_date);
               let day_advances = [];
               result.forEach(element => {
                 if (this.moment(new Date(element.Initial_Time)).isSame(current_date.format('YYYY-MM-DD'), 'day')) {
@@ -121,6 +119,7 @@ class AdvancesManager {
               third_pointer.set('minute', 0);
               third_pointer.set('second', 0);
             }
+            res.send(times_list);
             if(advance_minutes > 0) {
               res.send({time_out_of_bounds : true});
             } else {
