@@ -16,12 +16,81 @@ class AdvancesManager {
   }
 
   async firstAdvanceValidation(advance_info, res) {
-      const user_id = advance_info.user_id;
-      const activity_id = advance_info.activity_id;
-      const initial_time = new Date(advance_info.initial_hour)
-      const final_time = new Date(advance_info.final_hour)
-      const advance_comments = advance_info.comments;
-      res.send({sentIn: advance_info.initial_hour, sentFn: advance_info.final_hour,initial_time, final_time, advance_comments});
+    const user_id = advance_info.user_id;
+    const activity_id = advance_info.activity_id;
+    const initial_time = new Date(advance_info.initial_hour)
+    const final_time = new Date(advance_info.final_hour)
+    const advance_comments = advance_info.comments;
+    const myDate = await this.myGMTParseTime();
+    res.send({myDate});
+  }
+
+  myGMTParseTime(time) {
+    return new Promise ((req, res) => {
+    const generalArray = text.split(" ");
+    const timeArray = generalArray[4](':');
+
+    let second = timeArray[2];
+    let minute = timeArray[1];
+    let hour = timeArray[0];
+
+    let year = generalArray[3];
+    let day = generalArray[2];
+    let month;
+
+    switch (myArray[1]) {
+      case 'Jan': {
+        month = '01'
+      }
+        break;
+      case 'Feb': {
+        month = '02'
+      }
+        break;
+      case 'Mar': {
+        month = '03'
+      }
+        break;
+      case 'Apr': {
+        month = '04'
+      }
+        break;
+      case 'May': {
+        month = '05'
+      }
+        break;
+      case 'Jun': {
+        month = '06'
+      }
+        break;
+      case 'Jul': {
+        month = '07'
+      }
+        break;
+
+      case 'Aug': {
+        month = '08'
+      }
+        break;
+      case 'Sep': {
+        month = '09'
+      }
+        break;
+      case 'Oct': {
+        month = '10'
+      }
+        break;
+      case 'Nov': {
+        month = '11'
+      }
+        break;
+      case 'Dic': {
+        month = '12'
+      }
+        break;
+    }
+    resolve({second, minute, hour, day, month, year});
+    });
   }
 
   dynamicQuery(query_string) {
@@ -292,7 +361,7 @@ class AdvancesManager {
       if (err) {
         res.send(err);
       } else {
-      res.send(result);
+        res.send(result);
       }
     });
   }
@@ -302,7 +371,7 @@ class AdvancesManager {
       if (err) {
         res.send(err);
       } else {
-      res.send(result);
+        res.send(result);
       }
     });
   }
