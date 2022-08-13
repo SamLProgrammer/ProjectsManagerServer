@@ -16,7 +16,7 @@ class AdvancesManager {
   }
 
   async firstAdvanceValidation(advance_info, res) {
-    res.send(advance_info);
+    res.send({from_front: advance_info});
     // try {
     //   const user_id = advance_info.user_id;
     //   const activity_id = advance_info.activity_id;
