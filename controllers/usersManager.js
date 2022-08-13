@@ -180,7 +180,7 @@ class UsersManager {
         }
       });
     } else {
-      res.send(invalid_field);
+      res.send({err: invalid_field});
     }
   }
 }
