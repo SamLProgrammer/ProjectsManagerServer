@@ -119,7 +119,6 @@ class AdvancesManager {
               third_pointer.set('minute', 0);
               third_pointer.set('second', 0);
             }
-            res.send(times_list);
             if(advance_minutes > 0) {
               res.send({time_out_of_bounds : true});
             } else {
@@ -133,8 +132,8 @@ class AdvancesManager {
                 insertion_query_2 += current_advance.activity_assignment_id + ", '" + current_advance.comments + "', '" + current_advance.initial_hour + "', '" + current_advance.final_hour + "')";
               }
             }
-            await this.dynamicQuery(insertion_query_1 + insertion_query_2);
-            res.send(times_list);
+            const result_shit = await this.dynamicQuery(insertion_query_1 + insertion_query_2);
+            res.send(result_shit);
           }
           }).catch((err) => res.send(err));
       } else {
