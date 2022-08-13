@@ -11,7 +11,7 @@ class ActivitiesManager {
         if (err) { 
           return reject(err);
         } else {
-          resolve({ok: 'ok'});
+          resolve(result[0]);
         }
       });
 
