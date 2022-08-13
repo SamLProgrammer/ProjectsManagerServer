@@ -10,7 +10,7 @@ const { createUser, createProject, createActivity,
     getStoredProject} = require('../controllers/controller');
 
 router.get('/', globalResponse);
-router.get('getStoredProject', getStoredProject);
+router.get('/getStoredProject', getStoredProject);
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
 router.post('/createActivity', createActivity);
