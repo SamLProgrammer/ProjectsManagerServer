@@ -18,18 +18,18 @@ class AdvancesManager {
   async firstAdvanceValidation(advance_info, res) {
     const user_id = advance_info.user_id;
     const activity_id = advance_info.activity_id;
-    const initial_time = new Date(advance_info.initial_hour)
-    const final_time = new Date(advance_info.final_hour)
+    const initial_time = advance_info.initial_hour
+    const final_time = advance_info.final_hour
     const advance_comments = advance_info.comments;
     const parsed_initial_time = await this.myGMTParseTime(initial_time);
     const parsed_final_time = await this.myGMTParseTime(final_time);
-    res.send({myDate});
+    res.send({parsed_initial_time, parsed_final_time});
   }
 
   myGMTParseTime(time) {
     return new Promise ((resolve, reject) => {
     const generalArray = time.split(" ");
-    const timeArray = generalArray[4](':');
+    const timeArray = generalArray[4].split(':');
 
     let second = timeArray[2];
     let minute = timeArray[1];
@@ -39,7 +39,7 @@ class AdvancesManager {
     let day = generalArray[2];
     let month;
 
-    switch (myArray[1]) {
+    switch (generalArray[1]) {
       case 'Jan': {
         month = '01'
       }
