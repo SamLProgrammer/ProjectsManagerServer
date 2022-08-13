@@ -55,8 +55,7 @@ class AdvancesManager {
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
             let third_pointer = this.moment(new Date(advance_info.initial_hour));
-            first_pointer.subtract(5,'hours');
-            current_pointer.subtract(5,'hours');
+            first_pointer.add(5,'hours');
             third_pointer.set('hour', 16);
             third_pointer.set('minute', 0);
             third_pointer.set('second', 0);
