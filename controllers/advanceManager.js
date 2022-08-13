@@ -215,7 +215,7 @@ class AdvancesManager {
                       const initial_weeknd = (6 - a.day() > c) ? 0 : 1;
                       let weekends_amount = (parseInt((c - (6 - a.day())) / 7) + initial_weeknd) * 2;
                       weekends_amount = (b.day() == 5) ? weekends_amount - 1 : weekends_amount;
-                      const working_hours = (c - weekends_amount) * 8;
+                      const working_hours = (c) * 8;
 
                       const date = (new Date()).toISOString();
                       const insertion_query_4 = "SELECT * FROM advance WHERE Initial_Time > '" + this.moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(final_time)).format("YYYY-MM-DD HH:mm:ss") + "' AND Activity_Assignment_Id IN (SELECT Activity_Assignment_Id FROM activity_assignment WHERE User_Id = " + user_id + ")";
@@ -229,6 +229,7 @@ class AdvancesManager {
                             future_working_hours += diff / 3600000;
                           });
                           const future_free_time = working_hours - future_working_hours;
+                          console.log('working_h:: ' + working_hours + ' future_work' + future_working_hours);
                           const initial_hour = this.moment(new Date(advance_info.initial_hour)).format("YYYY-MM-DD HH:mm:ss");
                           const final_hour = this.moment(new Date(advance_info.final_hour)).format("YYYY-MM-DD HH:mm:ss");
                           const insertion_query_6 = "SELECT Activity_Assignment_id FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id;
@@ -248,7 +249,7 @@ class AdvancesManager {
                                       }
                                     });
                                   }
-                                  res.send({ warning: (remaining_hours_for_activity > future_free_time) });
+                                  res.send({ warning: (remaining_hours_for_activity > future_free_time), remaining_hours_for_activity, future_free_time });
                                 }
                               });
                             }
