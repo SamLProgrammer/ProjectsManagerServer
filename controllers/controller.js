@@ -133,7 +133,7 @@ const getAdvanceToEdit = (req, res) => {
 }
 
 const getActivityByID = async (req, res) => {
-    this.stored_activity = await activitiesManager.getActivityByID(req.body.activity_id, res);
+    this.stored_activity = req.body.activity_id;
 }
 
 const getAdvancesByActivity = (req, res) => {
@@ -145,7 +145,6 @@ const editActivity = (req, res) => {
 }
 
 const getProjectByID = (req, res) => {
-    //this.stored_project = await projectsManager.getProjectByID(req.body, res);
     this.stored_project = req.body.project_id;
 }
 
@@ -162,12 +161,15 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = async(req,res) => {
-    const result = await projectsManager.getProjectByID(req.body, res);
+    const body = this.stored_project;
+    const result = await projectsManager.getProjectByID(body, res);
     res.send(result);
 }
 
 const getStoredActivity = (req,res) => {
-    res.send(this.stored_activity);
+    const act_id = this.stored_activity;
+    const result =  await activitiesManager.getActivityByID(act_id, res);
+    res.send(result);
 }
 
 module.exports = {
