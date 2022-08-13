@@ -172,5 +172,6 @@ module.exports = {
     editProject,
     hoursStatsPerUser,
     globalResponse,
-    test
+    test,
+    getStoredProject
 };
