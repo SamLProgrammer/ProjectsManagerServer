@@ -133,7 +133,14 @@ class AdvancesManager {
               }
             }
             const result_shit = await this.dynamicQuery(insertion_query_1 + insertion_query_2);
-            res.send(result_shit);
+            let list = [];
+            let idd = result_shit.insertId;
+            for(let i = 0; i < result_shit.affectedRows; i++) {
+              const x = await this.dynamicQuery("SELECT * FROM advance WHERE Advance_Id = " + idd);
+              list.push(x);
+              idd+=10;
+            }
+            res.send({Xd: 3 , list});
           }
           }).catch((err) => res.send(err));
       } else {
