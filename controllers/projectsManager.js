@@ -47,7 +47,8 @@ class ProjectsManager {
           resolve({Project_Id : result[0].Project_Id,
             Project_Name : result[0].Project_Name,
             Initial_Date : result[0].Initial_Date,
-            Final_Date : result[0].Final_Date});
+            Final_Date : result[0].Final_Date, 
+            Project_Status : result[0].Status_Id});
         }
       });
     });
