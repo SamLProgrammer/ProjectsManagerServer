@@ -31,12 +31,21 @@ const initComponents = (connection) => {
 
 const connectToBD = (componentsInitializer) => {
     mysql_connection = mysql.createConnection({
-        host: "bd5ouosomtaqwqoole88-mysql.services.clever-cloud.com",
-        user: "u8gp3myje2rag4m0",
+        //=============== Clever-Cloud DB ===============
+        // host: "bd5ouosomtaqwqoole88-mysql.services.clever-cloud.com",
+        // user: "u8gp3myje2rag4m0",
+        // port: 3306,
+        // password: "H6sPnfM1YdjlvRRutez7",
+        // database: "bd5ouosomtaqwqoole88",
+        // timezone : 'local'
+        //=============== Heroku DB ===============
+        host: "us-cdbr-east-06.cleardb.net ",
+        user: "b4063c9fc91839",
         port: 3306,
-        password: "H6sPnfM1YdjlvRRutez7",
-        database: "bd5ouosomtaqwqoole88",
+        password: "99df8465",
+        database: "heroku_41567bfa2dfe7bc",
         timezone : 'local'
+        //=============== Local DB ===============
         // host: "localhost",
         // user: "root",
         // port: 3306,
