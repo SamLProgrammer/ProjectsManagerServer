@@ -21,13 +21,14 @@ class AdvancesManager {
     const initial_time = new Date(advance_info.initial_hour)
     const final_time = new Date(advance_info.final_hour)
     const advance_comments = advance_info.comments;
-    const myDate = await this.myGMTParseTime();
+    const parsed_initial_time = await this.myGMTParseTime(initial_time);
+    const parsed_final_time = await this.myGMTParseTime(final_time);
     res.send({myDate});
   }
 
   myGMTParseTime(time) {
     return new Promise ((resolve, reject) => {
-    const generalArray = text.split(" ");
+    const generalArray = time.split(" ");
     const timeArray = generalArray[4](':');
 
     let second = timeArray[2];
