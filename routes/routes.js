@@ -30,8 +30,8 @@ router.post('/getProjectToEdit', getProjectByID);
 router.post('/editProject', editProject);
 router.post('/hoursStatsPerUser', hoursStatsPerUser);
 
-router.delete('/deleteProject', disableProject);
-router.delete('/deleteActivity', deleteActivity);
+router.post('/deleteProject', disableProject);
+router.post('/deleteActivity', deleteActivity);
 
 router.get('/getUsers', getAllUsers);
 router.get('/getProjects', getAllProjects);

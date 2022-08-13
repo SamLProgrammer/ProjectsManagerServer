@@ -18,7 +18,7 @@ class ProjectsManager {
     this.db_connection.query(query_text, (err, result, fields) => {
       if (err) {
         console.log(err);
-        res.send(err);
+        res.send({err});
       } else {
         res.send(result);
       }
@@ -27,6 +27,7 @@ class ProjectsManager {
   }
 
   disableProject(body, res) { // validaciones
+    console.log(body);
     this.db_connection.query("UPDATE project SET Status_Id = 'A' WHERE Project_Id = " + body.project_id, (err, result, fields) => {
       if (err) {
         res.send(err);
