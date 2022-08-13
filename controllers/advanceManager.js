@@ -24,9 +24,11 @@ class AdvancesManager {
       const advance_comments = advance_info.comments;
 
       let advance_minutes = final_time.diff(initial_time,'minutes');
-      console.log(advance_minutes);
       let first_limit = this.moment(new Date(advance_info.initial_hour));
       let second_limit = this.moment(new Date(advance_info.initial_hour));
+
+      initial_time.subtract(5, 'hours');
+      final_time.subtract(5, 'hours');
 
       first_limit.set('hour', 8);
       first_limit.set('minute', 0);
