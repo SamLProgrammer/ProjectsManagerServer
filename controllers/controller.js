@@ -11,7 +11,11 @@ let activitiesManager;
 let advancesManager;
 let mysql_connection;
 
-let stored_project;
+let stored_project = {Project_Id: 10,
+    Project_Name: 'Prueba profea',
+    Initial_Date: '2022-08-13T01:11:51.000Z',
+    Final_Date: '2022-08-20T01:11:51.000Z',
+    Status_Id: 'E'};
 
 
 const test = (req, res) => {
@@ -146,6 +150,7 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = (req,res) => {
+    console.log('on method: ' + stored_project);
     res.send(stored_project);
 }
 
