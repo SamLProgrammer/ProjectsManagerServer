@@ -133,8 +133,8 @@ const editActivity = (req, res) => {
     activitiesManager.editActivity(req.body, res);
 }
 
-const getProjectByID = (req, res, stored_project) => {
-    projectsManager.getProjectByID(req.body, res, stored_project);
+const getProjectByID = async (req, res, stored_project) => {
+    stored_project = await projectsManager.getProjectByID(req.body, res, stored_project);
 }
 
 const editProject = (req, res) => {
@@ -150,7 +150,6 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = (req,res) => {
-    console.log('on method: ' + stored_project);
     res.send(stored_project);
 }
 
