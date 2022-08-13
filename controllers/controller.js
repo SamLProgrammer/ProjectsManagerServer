@@ -134,6 +134,7 @@ const getAdvanceToEdit = (req, res) => {
 
 const getActivityByID = async (req, res) => {
     this.stored_activity = req.body.activity_id;
+    res.send({ok : ' ok'});
 }
 
 const getAdvancesByActivity = (req, res) => {
@@ -145,7 +146,8 @@ const editActivity = (req, res) => {
 }
 
 const getProjectByID = (req, res) => {
-    this.stored_project = req.body.project_id;
+    this.stored_project = req.body;
+    res.send({ok: 'ok'});
 }
 
 const editProject = (req, res) => {

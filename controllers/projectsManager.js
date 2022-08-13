@@ -44,7 +44,6 @@ class ProjectsManager {
         if (err) {
           return reject(err);
         } else {
-          res.send({ok: 'ok'});
           resolve({Project_Id : result[0].Project_Id,
             Project_Name : result[0].Project_Name,
             Initial_Date : result[0].Initial_Date,
