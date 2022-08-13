@@ -48,7 +48,7 @@ const connectToBD = (componentsInitializer) => {
             port: 3306,
             password: "99df8465",
             database: "heroku_41567bfa2dfe7bc",
-            //timezone : 'local'
+            timezone : 'utc'
             //=============== Local DB ===============
             // host: "localhost",
             // user: "root",
