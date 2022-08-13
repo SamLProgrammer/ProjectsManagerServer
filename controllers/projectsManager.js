@@ -6,15 +6,15 @@ class ProjectsManager {
   }
 
   editProject(project_info, res) {
-
-    const project_id = project_info.project_id;
-    const project_initial_date = project_info.initial_date;
-    const project_final_date = project_info.final_date;
-    const project_name = project_info.project_name;
-    const project_status = project_info.status_id;
+    console.log(project_info);
+    const project_id = project_info.Project_Id;
+    const project_initial_date = project_info.Initial_Date;
+    const project_final_date = project_info.Final_Date;
+    const project_name = project_info.Project_Name;
+    const project_status = project_info.Status_Id;
 
     //aquí FALLARÁ
-    const query_text = "UPDATE project SET Project_Name = '" + project_name + "', Initial_Date = '" + project_initial_date + "', Final_Date = '" + project_final_date + "', Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
+    const query_text = "UPDATE project SET Project_Name = '" + project_name + "', Initial_Date = '" + this.moment(new Date(project_initial_date)).format("YYYY-MM-DD HH:mm:ss") + "', Final_Date = '" + this.moment(new Date(project_final_date)).format("YYYY-MM-DD HH:mm:ss") + "', Status_Id = '" + project_status + "' WHERE Project_Id = " + project_id;
 
     this.db_connection.query(query_text, (err, result, fields) => {
       if (err) {
