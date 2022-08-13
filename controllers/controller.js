@@ -144,8 +144,9 @@ const editActivity = (req, res) => {
     activitiesManager.editActivity(req.body, res);
 }
 
-const getProjectByID = async (req, res, stored_project) => {
-    this.stored_project = await projectsManager.getProjectByID(req.body, res, stored_project);
+const getProjectByID = async (req, res) => {
+    this.stored_project = await projectsManager.getProjectByID(req.body, res);
+    console.log(this.stored_project);
 }
 
 const editProject = (req, res) => {
@@ -161,6 +162,7 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = (req,res) => {
+    console.log('xxx: ' + this.stored_project);
     res.send(this.stored_project);
 }
 
