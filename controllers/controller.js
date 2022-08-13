@@ -11,6 +11,8 @@ let activitiesManager;
 let advancesManager;
 let mysql_connection;
 
+let stored_project;
+
 
 const test = (req, res) => {
     res.send('dude');
@@ -127,8 +129,8 @@ const editActivity = (req, res) => {
     activitiesManager.editActivity(req.body, res);
 }
 
-const getProjectByID = (req, res) => {
-    projectsManager.getProjectByID(req.body, res);
+const getProjectByID = (req, res, stored_project) => {
+    projectsManager.getProjectByID(req.body, res, stored_project);
 }
 
 const editProject = (req, res) => {
@@ -144,7 +146,7 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = (req,res) => {
-    projectsManager.getStoredProject(res);
+    res.send(stored_project);
 }
 
 module.exports = {

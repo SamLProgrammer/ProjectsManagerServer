@@ -3,7 +3,6 @@ class ProjectsManager {
   constructor(in_db_connection, moment) {
     this.db_connection = in_db_connection;
     this.moment = moment;
-    this.project_holder;
   }
 
   editProject(project_info, res) {
@@ -37,17 +36,15 @@ class ProjectsManager {
     });
   }
 
-  getStoredProject(res) {
-    res.send({proejct: this.storedProject})
-  }
-
-  getProjectByID(project_info, res) {
+  getProjectByID(project_info, res, stored_project) {
 
     this.db_connection.query("SELECT * FROM project WHERE Project_Id = " + project_info.project_id, (err, result, fields) => {
       if (err) {
         res.send("mal");
       } else {
-        this.project_holder = result[0];
+        stored_project = result[0];
+        console.log(result[0]);
+        console.log(stored_project);
         res.send({ok: 'ok'});
       }
     });
