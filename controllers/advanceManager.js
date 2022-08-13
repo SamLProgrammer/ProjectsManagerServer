@@ -27,8 +27,10 @@ class AdvancesManager {
       let first_limit = this.moment(new Date(advance_info.initial_hour));
       let second_limit = this.moment(new Date(advance_info.initial_hour));
 
-      initial_time.subtract(5, 'hours');
-      final_time.subtract(5, 'hours');
+      let aux_initial_time = this.moment(initial_time);
+      let aux_final_time = this.moment(final_time);
+      aux_initial_time.subtract(5,'hours');
+      aux_final_time.subtract(5,'hours');
 
       first_limit.set('hour', 8);
       first_limit.set('minute', 0);
@@ -37,18 +39,18 @@ class AdvancesManager {
       second_limit.set('minute', 0);
       second_limit.set('second', 0);
       console.log(initial_time.format("YYYY-MM-DD HH:mm:ss") + ' ' + first_limit.format("YYYY-MM-DD HH:mm:ss"))
-      if ((initial_time > final_time)
-        || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
+      if ((aux_initial_time > aux_final_time)
+        || (aux_final_time.diff(aux_initial_time, 'minutes') < 480 && (aux_initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || aux_final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
           console.log('camino 1');
         res.send({ time_off: 'reversedTimes', initial_time: initial_time.format("YYYY-MM-DD HH:mm:ss"), final_time: final_time.format("YYYY-MM-DD HH:mm:ss"), first_limit: first_limit.format("YYYY-MM-DD HH:mm:ss"), second_limit: second_limit.format("YYYY-MM-DD HH:mm:ss") });
-      } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {
+      } else if (aux_final_time.diff(aux_initial_time, 'minutes') > 480 && aux_initial_time > first_limit) {
         console.log('camino 2');
         const activity_assignment = await this.dynamicQuery("SELECT * FROM activity_assignment WHERE User_Id = " + user_id + " AND Activity_Id = " + activity_id);
-        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM activity_assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
+        this.dynamicQuery("SELECT * FROM advance WHERE Activity_Assignment_Id IN (SELECT Activity_Assignment_Id  FROM activity_assignment WHERE User_Id = " + user_id + ") AND Initial_Time >= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time < '" + this.moment(new Date(activity_assignment[0].Final_Time)).format("YYYY-MM-DD HH:mm:ss") + "'").then(
           async (result) => {
 
             result.sort((a, b) => { return this.moment(new Date(a.Initial_Time)) - this.moment(new Date(b.Initial_Time)) });
-            const overlapping_advance = await this.dynamicQuery("SELECT * FROM advance WHERE Initial_Time <= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
+            const overlapping_advance = await this.dynamicQuery("SELECT * FROM advance WHERE Initial_Time <= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "' AND Final_Time >= '" + aux_initial_time.format("YYYY-MM-DD HH:mm:ss") + "'");
 
             let first_pointer = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour)); // Cambiar esto
             let current_date = (typeof overlapping_advance !== 'undefined' && overlapping_advance.length > 0) ? this.moment(new Date(overlapping_advance[0].Final_Time)) : this.moment(new Date(advance_info.initial_hour));;
