@@ -29,6 +29,53 @@ const initComponents = (connection) => {
     advancesManager = new advances_manager(connection, moment);
 };
 
+const handleDisconnect = () => {
+    mysql_connection = mysql.createConnection(
+        {
+            //=============== Clever-Cloud DB ===============
+            // host: "bd5ouosomtaqwqoole88-mysql.services.clever-cloud.com",
+            // user: "u8gp3myje2rag4m0",
+            // port: 3306,
+            // password: "H6sPnfM1YdjlvRRutez7",
+            // database: "bd5ouosomtaqwqoole88",
+            // timezone : 'local'
+            //=============== Heroku DB ===============
+            host: "us-cdbr-east-06.cleardb.net",
+            user: "b4063c9fc91839",
+            port: 3306,
+            password: "99df8465",
+            database: "heroku_41567bfa2dfe7bc",
+            timezone : 'local'
+            //=============== Local DB ===============
+            // host: "localhost",
+            // user: "root",
+            // port: 3306,
+            // password: "leliberteHal0",
+            // database: "projectsmanager",
+            // timezone : 'local'
+        }
+    ); // Recreate the connection, since
+                                                    // the old one cannot be reused.
+  
+    mysql_connection.connect(function(err) {              // The server is either down
+      if(err) {                                     // or restarting (takes a while sometimes).
+        console.log('error when connecting to db:', err);
+        setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+      }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+    mysql_connection.on('error', function(err) {
+      console.log('db error', err);
+      if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+        handleDisconnect();                         // lost due to either server restart, or a
+      } else {                                      // connnection idle timeout (the wait_timeout
+        throw err;                                  // server variable configures this)
+      }
+    });
+  }
+
+  handleDisconnect();
+
 const connectToBD = (componentsInitializer) => {
     mysql_connection = mysql.createConnection({
         //=============== Clever-Cloud DB ===============
@@ -39,7 +86,7 @@ const connectToBD = (componentsInitializer) => {
         // database: "bd5ouosomtaqwqoole88",
         // timezone : 'local'
         //=============== Heroku DB ===============
-        host: "us-cdbr-east-06.cleardb.net ",
+        host: "us-cdbr-east-06.cleardb.net",
         user: "b4063c9fc91839",
         port: 3306,
         password: "99df8465",
