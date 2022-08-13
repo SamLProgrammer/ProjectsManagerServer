@@ -21,7 +21,7 @@ class AdvancesManager {
       const initial_time = this.moment(new Date(advance_info.initial_hour))
       const final_time = this.moment(new Date(advance_info.final_hour))
       const advance_comments = advance_info.comments;
-      res.send({initial_time, final_time, advance_comments});
+      res.send({sentIn: advance_info.initial_hour, sentFn: advance_info.final_hour,initial_time, final_time, advance_comments});
   }
 
   dynamicQuery(query_string) {
