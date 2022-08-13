@@ -166,7 +166,7 @@ const getStoredProject = async(req,res) => {
     res.send(result);
 }
 
-const getStoredActivity = (req,res) => {
+const getStoredActivity = async (req,res) => {
     const act_id = this.stored_activity;
     const result =  await activitiesManager.getActivityByID(act_id, res);
     res.send(result);
