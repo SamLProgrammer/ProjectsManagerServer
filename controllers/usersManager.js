@@ -172,7 +172,7 @@ class UsersManager {
             if (err1) {
               this.db_connection.query("DELETE FROM identity_document WHERE Type_Id = '" + user_info.identity_document_type + "' AND Document_word = '" + user_info.identity_document_word + "'", (err1, result1, fields1) => {
               });
-              res.send(err1);
+              res.send({err: err1});
             } else {
             res.send({ respo: invalid_field })
             }
