@@ -19,8 +19,8 @@ class AdvancesManager {
     try {
       const user_id = advance_info.user_id;
       const activity_id = advance_info.activity_id;
-      const initial_time = this.moment(new Date(advance_info.initial_hour));
-      const final_time = this.moment(new Date(advance_info.final_hour));
+      const initial_time = this.moment(new Date(advance_info.initial_hour))
+      const final_time = this.moment(new Date(advance_info.final_hour))
       const advance_comments = advance_info.comments;
 
       let advance_minutes = final_time.diff(initial_time,'minutes');
@@ -35,7 +35,7 @@ class AdvancesManager {
       second_limit.set('minute', 0);
       second_limit.set('second', 0);
       if ((initial_time > final_time)
-        || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time < first_limit || final_time > second_limit))) {
+        || (final_time.diff(initial_time, 'minutes') < 480 && (initial_time.format("YYYY-MM-DD HH:mm:ss") < first_limit.format("YYYY-MM-DD HH:mm:ss") || final_time.format("YYYY-MM-DD HH:mm:ss") > second_limit.format("YYYY-MM-DD HH:mm:ss")))) {
           console.log('camino 1');
         res.send({ time_off: 'reversedTimes', initial_time, final_time, first_limit, second_limit });
       } else if (final_time.diff(initial_time, 'minutes') > 480 && initial_time > first_limit) {

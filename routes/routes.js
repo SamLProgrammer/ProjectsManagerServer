@@ -6,9 +6,11 @@ const { createUser, createProject, createActivity,
     login, disableProject, deleteActivity, getAllActivityUser,
     createAdvance, getAdvancesByUser, editAdvance, getAdvanceToEdit,
     getActivityByID, editActivity, getAdvancesByActivity,
-    getProjectByID, editProject, hoursStatsPerUser, globalResponse, test} = require('../controllers/controller');
+    getProjectByID, editProject, hoursStatsPerUser, globalResponse,
+    getStoredProject} = require('../controllers/controller');
+
 router.get('/', globalResponse);
-router.get('/test', test)
+router.get('getStoredProject', getStoredProject);
 router.post('/createUser', createUser);
 router.post('/createProject', createProject);
 router.post('/createActivity', createActivity);

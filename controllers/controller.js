@@ -143,6 +143,10 @@ const globalResponse  = (req, res) => {
     res.send('Ola ke me ase');
 }
 
+const getStoredProject = (req,res) => {
+    projectsManager.getStoredProject(res);
+}
+
 module.exports = {
     createUser,
     createProject,
