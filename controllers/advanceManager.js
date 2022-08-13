@@ -26,7 +26,7 @@ class AdvancesManager {
   }
 
   myGMTParseTime(time) {
-    return new Promise ((req, res) => {
+    return new Promise ((resolve, reject) => {
     const generalArray = text.split(" ");
     const timeArray = generalArray[4](':');
 
