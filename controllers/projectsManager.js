@@ -43,12 +43,6 @@ class ProjectsManager {
         if (err) {
           return reject(err);
         } else {
-          stored_project = result[0];
-          stored_project.Project_Id = result[0].Project_Id;
-          stored_project.Project_Name = result[0].Project_Name;
-          stored_project.Initial_Date = result[0].Initial_Date;
-          stored_project.Final_Date = result[0].Final_Date;
-          console.log('stored after: ' +  stored_project);
           res.send({ok: 'ok'});
           resolve({Project_Id : result[0].Project_Id,
             Project_Name : result[0].Project_Name,

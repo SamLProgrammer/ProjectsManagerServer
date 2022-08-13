@@ -11,11 +11,7 @@ let activitiesManager;
 let advancesManager;
 let mysql_connection;
 
-let stored_project = {Project_Id: 10,
-    Project_Name: 'Prueba profea',
-    Initial_Date: '2022-08-13T01:11:51.000Z',
-    Final_Date: '2022-08-20T01:11:51.000Z',
-    Status_Id: 'E'};
+let stored_project;
 
 
 const test = (req, res) => {
@@ -134,7 +130,7 @@ const editActivity = (req, res) => {
 }
 
 const getProjectByID = async (req, res, stored_project) => {
-    stored_project = await projectsManager.getProjectByID(req.body, res, stored_project);
+    this.stored_project = await projectsManager.getProjectByID(req.body, res, stored_project);
 }
 
 const editProject = (req, res) => {
@@ -150,7 +146,7 @@ const globalResponse  = (req, res) => {
 }
 
 const getStoredProject = (req,res) => {
-    res.send(stored_project);
+    res.send(this.stored_project);
 }
 
 module.exports = {
