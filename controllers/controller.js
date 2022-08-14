@@ -159,7 +159,7 @@ const hoursStatsPerUser = (req, res) => {
 }
 
 const globalResponse  = (req, res) => {
-    res.send('Ola ke me ase');
+    res.send('Ola ke ase');
 }
 
 const getStoredProject = async(req,res) => {

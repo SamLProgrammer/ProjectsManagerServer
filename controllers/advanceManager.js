@@ -26,6 +26,32 @@ class AdvancesManager {
     res.send({parsed_initial_time, parsed_final_time});
   }
 
+  myDateComparator(myDate1, myDate2) {
+    return new Promise((resolve, reject) => {
+      if(myDate2.year == myDate1) {
+        if(myDate2.month == myDate1.month) {
+          const myDate1Seconds = myDate1.day*24*3600 + myDate1.hour*3600 + myDate1.minute*60 + myDate1.second;
+          const myDate2Seconds = myDate2.day*24*3600 + myDate2.hour*3600 + myDate2.minute*60 + myDate2.second;
+          if(myDate1Seconds == myDate2Seconds) {
+            resolve(0)
+          } else if (myDate2Seconds > myDate1Seconds) {
+            resolve(1)
+          } else {
+            resolve(-1);
+          }
+        } else if(myDate2.month > myDate1.month) {
+          resolve(1);
+        } else {
+          resolve(-1);
+        }
+      } else if(myDate2.year > myDate1) {
+        resolve(1);
+      } else {
+        resolve(-1);
+      }
+    });
+  }
+
   myGMTParseTime(time) {
     return new Promise ((resolve, reject) => {
     const generalArray = time.split(" ");
