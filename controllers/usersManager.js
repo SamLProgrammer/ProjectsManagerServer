@@ -48,6 +48,7 @@ class UsersManager {
   }
 
   login(login_info, res) {
+    console.log(login_info);
     let keysList = ['login_user', 'user_password'];
     let valid_json = true;
     let BreakException = {};
@@ -67,14 +68,15 @@ class UsersManager {
         res.status(500).send(err);
       } else {
         if (result.length > 0) {
-          res.status(200).send({
+          res.status(200).send({ user_info : {
             'id': result[0].User_Id,
             'boss_id': result[0].Boss_Id,
             'user_name': result[0].User_Name,
             'user_lastname': result[0].User_Last_Name,
-          })
+          }})
         } else {
-          res.status(400).send('Usuario no existe');
+          console.log('user doesnt exist');
+          res.status(400).send({err : 'Wrong User or Password'});
         }
       }
     });
